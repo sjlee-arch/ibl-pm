@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBL Clinical PM</title>
+<script src="https://unpkg.com/firebase@8.10.1/firebase-app.js"></script>
+<script src="https://unpkg.com/firebase@8.10.1/firebase-auth.js"></script>
+<script src="https://unpkg.com/firebase@8.10.1/firebase-firestore.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f7fa;
+  --bg2: #ffffff;
+  --bg3: #f0f2f5;
+  --border: #e2e6ed;
+  --border2: #d0d5dd;
+  --text: #1a2035;
+  --text2: #5a6278;
+  --text3: #9aa3b5;
+  --accent: #2563eb;
+  --accent2: #1d4ed8;
+  --green: #059669;
+  --yellow: #d97706;
+  --red: #dc2626;
+  --purple: #7c3aed;
+  --orange: #ea580c;
+  --cyan: #0891b2;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+
+/* LOADING */
+#loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 16px; }
+.loader { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* AUTH */
+#auth { position: fixed; inset: 0; background: var(--bg); display: none; align-items: center; justify-content: center; z-index: 999; }
+.auth-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 40px; width: 380px; }
+.auth-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+.auth-logo .logo-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.auth-logo .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.auth-logo .logo-sub { font-size: 11px; color: var(--text2); margin-top: 1px; }
+.auth-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.auth-sub { color: var(--text2); font-size: 13px; margin-bottom: 28px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 8px; border: none; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--border2); background: var(--border); }
+.btn-danger { background: rgba(248,113,113,0.15); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+.btn-danger:hover { background: rgba(248,113,113,0.25); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-full { width: 100%; justify-content: center; }
+.err { color: var(--red); font-size: 12px; margin-top: 8px; }
+
+/* LAYOUT */
+#app { display: none; min-height: 100vh; }
+.sidebar { position: fixed; top: 0; left: 0; width: 220px; height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 100; }
+.sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); }
+.sidebar-logo .logo-row { display: flex; align-items: center; gap: 10px; }
+.sidebar-logo .icon { width: 32px; height: 32px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.sidebar-logo .name { font-size: 14px; font-weight: 700; line-height: 1.2; }
+.sidebar-logo .sub { font-size: 10px; color: var(--text3); margin-top: 1px; }
+.sidebar-nav { flex: 1; padding: 12px 10px; overflow-y: auto; }
+.nav-section { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 8px 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 7px; cursor: pointer; color: var(--text2); font-size: 13px; font-weight: 500; transition: all 0.15s; margin-bottom: 2px; }
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: rgba(79,142,247,0.15); color: var(--accent); }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+.sidebar-footer { padding: 14px 10px; border-top: 1px solid var(--border); }
+.user-card { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; }
+.user-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.user-info .name { font-size: 12px; font-weight: 600; }
+.user-info .role { font-size: 10px; color: var(--text3); }
+.logout-btn { font-size: 11px; color: var(--text3); cursor: pointer; padding: 4px 10px; }
+.logout-btn:hover { color: var(--red); }
+
+.main { margin-left: 220px; padding: 28px 32px; min-height: 100vh; }
+.page { display: none; }
+.page.active { display: block; }
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.page-sub { color: var(--text2); font-size: 13px; margin-top: 3px; }
+
+/* CARDS */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.card-title { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
+
+/* STATS GRID */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
+.stat-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+.stat-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.stat-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--bg3); color: var(--text2); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* BADGE */
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-blue { background: rgba(79,142,247,0.15); color: var(--accent); }
+.badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+.badge-yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+.badge-red { background: rgba(248,113,113,0.15); color: var(--red); }
+.badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+.badge-gray { background: var(--bg3); color: var(--text2); }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 500; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+.modal-lg { max-width: 800px; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 16px; font-weight: 700; }
+.modal-close { background: none; border: none; color: var(--text2); font-size: 20px; cursor: pointer; padding: 4px; line-height: 1; }
+.modal-close:hover { color: var(--text); }
+.modal-body { padding: 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; }
+
+/* PROJECT CARD */
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.proj-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
+.proj-card:hover { border-color: var(--border2); transform: translateY(-1px); box-shadow: var(--shadow); }
+.proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.proj-card.status-ongoing::before { background: var(--accent); }
+.proj-card.status-completed::before { background: var(--green); }
+.proj-card.status-planning::before { background: var(--yellow); }
+.proj-card.status-onhold::before { background: var(--orange); }
+.proj-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.proj-code { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text2); background: var(--bg3); padding: 3px 7px; border-radius: 4px; }
+.proj-title { font-size: 15px; font-weight: 700; margin: 8px 0 4px; line-height: 1.3; }
+.proj-sponsor { font-size: 12px; color: var(--text2); margin-bottom: 14px; }
+.proj-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+.proj-meta-item { font-size: 11px; color: var(--text3); }
+.proj-meta-item span { color: var(--text2); font-weight: 500; }
+.proj-progress { margin-top: 14px; }
+.prog-bar { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.prog-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+.prog-fill.blue { background: var(--accent); }
+.prog-fill.green { background: var(--green); }
+.proj-enroll { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; }
+.proj-enroll .label { color: var(--text3); }
+.proj-enroll .val { font-weight: 600; }
+
+/* TIMELINE */
+.timeline { position: relative; }
+.timeline-item { display: flex; gap: 16px; margin-bottom: 0; position: relative; }
+.timeline-item:not(:last-child) .tl-line { position: absolute; left: 15px; top: 32px; bottom: 0; width: 2px; background: var(--border); }
+.tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; position: relative; z-index: 1; margin-top: 2px; }
+.tl-dot.done { background: rgba(5,150,105,0.1); border: 2px solid var(--green); }
+.tl-dot.active { background: rgba(37,99,235,0.1); border: 2px solid var(--accent); }
+.tl-dot.pending { background: var(--bg3); border: 2px solid var(--border); }
+.tl-dot.late { background: rgba(220,38,38,0.1); border: 2px solid var(--red); }
+.tl-dot.disabled { background: var(--bg3); border: 2px dashed var(--border2); color: var(--text3); }
+.tl-content { flex: 1; padding-bottom: 20px; }
+.tl-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.tl-date { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+.tl-note { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+/* ENROLL CHART */
+.enroll-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.enroll-label { width: 90px; font-size: 12px; color: var(--text2); flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.enroll-track { flex: 1; height: 20px; background: var(--bg3); border-radius: 4px; overflow: hidden; position: relative; }
+.enroll-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.enroll-fill.full { background: var(--green); }
+.enroll-num { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.enroll-target { font-size: 11px; color: var(--text3); width: 45px; text-align: right; }
+
+/* TABS */
+.tabs { display: flex; gap: 4px; background: var(--bg3); border-radius: 8px; padding: 4px; margin-bottom: 20px; width: fit-content; }
+.tab { padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+.tab.active { background: var(--bg2); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* SPONSOR VIEW */
+#sponsor-view { background: var(--bg); min-height: 100vh; padding: 40px; }
+.sponsor-header { max-width: 900px; margin: 0 auto 32px; display: flex; align-items: center; justify-content: space-between; }
+.sponsor-logo { font-size: 18px; font-weight: 700; }
+.sponsor-logo span { color: var(--accent); }
+.sponsor-content { max-width: 900px; margin: 0 auto; }
+.sponsor-proj-title { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+.sponsor-proj-code { font-family: 'DM Mono', monospace; color: var(--text2); margin-bottom: 24px; }
+.sponsor-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.sponsor-stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; }
+.sponsor-stat .val { font-size: 30px; font-weight: 700; }
+.sponsor-stat .lbl { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+/* INVESTIGATOR UPDATE FORM */
+.site-update-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 14px; }
+.site-update-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.site-name { font-size: 14px; font-weight: 600; }
+.site-country { font-size: 11px; color: var(--text2); }
+.inp-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.inp-box { text-align: center; }
+.inp-box label { display: block; font-size: 10px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; }
+.inp-box input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 8px; text-align: center; color: var(--text); font-size: 16px; font-weight: 700; font-family: 'DM Mono', monospace; outline: none; }
+.inp-box input:focus { border-color: var(--accent); }
+
+/* TOAST */
+#toast { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-size: 13px; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); animation: toastIn 0.2s ease; }
+.toast-item.success { border-left: 3px solid var(--green); }
+.toast-item.error { border-left: 3px solid var(--red); }
+.toast-item.info { border-left: 3px solid var(--accent); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.sidebar { box-shadow: 1px 0 0 var(--border); }
+
+/* Inv only view override */
+.inv-only .main { margin-left: 0; }
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="loader"></div><div style="color:var(--text2);font-size:13px;">Loading...</div></div>
+
+<!-- AUTH -->
+<div id="auth">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="logo-icon">🧪</div>
+      <div><div class="logo-text">IBL Clinical PM</div><div class="logo-sub">InnoBioLab · Project Management</div></div>
+    </div>
+    <div class="auth-title">로그인</div>
+    <div class="auth-sub">등록된 계정으로 접속하세요</div>
+    <div class="form-group"><label>이메일</label><input type="email" id="login-email" placeholder="email@example.com"></div>
+    <div class="form-group"><label>비밀번호</label><input type="password" id="login-pw" placeholder="••••••••"></div>
+    <div class="err" id="login-err"></div>
+    <button class="btn btn-primary btn-full" style="margin-top:16px;" onclick="doLogin()">로그인</button>
+  </div>
+</div>
+
+<!-- SPONSOR VIEW (no sidebar) -->
+<div id="sponsor-view" style="display:none;">
+  <div class="sponsor-header">
+    <div class="sponsor-logo">IBL <span>Clinical PM</span></div>
+    <div style="font-size:12px;color:var(--text2);">InnoBioLab CRO · Project Status Report</div>
+  </div>
+  <div class="sponsor-content" id="sponsor-content"></div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-row">
+        <div class="icon">🧪</div>
+        <div><div class="name">IBL Clinical PM</div><div class="sub">InnoBioLab</div></div>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section">Overview</div>
+      <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="icon">📊</span>대시보드</div>
+      <div class="nav-section">Projects</div>
+      <div class="nav-item" onclick="showPage('projects')" id="nav-projects"><span class="icon">📁</span>프로젝트 목록</div>
+      <div class="nav-item" onclick="showPage('timeline')" id="nav-timeline"><span class="icon">📅</span>마일스톤 타임라인</div>
+      <div class="nav-item" onclick="showPage('enrollment')" id="nav-enrollment"><span class="icon">👥</span>대상자 모집 현황</div>
+      <div class="nav-section" id="nav-section-admin">Admin</div>
+      <div class="nav-item" onclick="showPage('users')" id="nav-users"><span class="icon">⚙️</span>사용자 관리</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-info"><div class="name" id="user-name-display">-</div><div class="role" id="user-role-display">-</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 10px 4px;">
+        <div class="logout-btn" onclick="doLogout()" id="btn-logout-label">로그아웃</div>
+        <button onclick="toggleLang()" style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600;cursor:pointer;color:var(--text2);" id="lang-toggle-btn">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div><div class="page-title">대시보드</div><div class="page-sub">전체 임상시험 프로젝트 현황</div></div>
+        <button class="btn btn-primary" onclick="openProjectModal()" id="btn-add-project">+ 프로젝트 추가</button>
+      </div>
+      <div class="stats-grid" id="dash-stats">
+        <div class="stat-card"><div class="stat-label" id="lbl-total">전체 프로젝트</div><div class="stat-value" id="stat-total">-</div></div>
+        <div class="stat-card"><div class="stat-label" id="lbl-ongoing">진행중</div><div class="stat-value" style="color:var(--accent)" id="stat-ongoing">-</div></div>
+        <div class="stat-card"><div class="stat-label" id="lbl-completed">완료</div><div class="stat-value" style="color:var(--green)" id="stat-completed">-</div></div>
+        <div class="stat-card"><div class="stat-label" id="lbl-enrolled">총 등록 대상자</div><div class="stat-value" style="color:var(--purple)" id="stat-enrolled">-</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">진행중 프로젝트</div>
+          <div id="dash-projects-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">모집 현황 요약</div>
+          <div id="dash-enroll-chart"></div>
+        </div>
+      </div>
+      <div style="margin-top:20px;" class="card">
+        <div class="card-title">임박한 마일스톤 (30일 이내)</div>
+        <div id="dash-milestones"></div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="page" id="page-projects">
+      <div class="page-header">
+        <div><div class="page-title">프로젝트 목록</div><div class="page-sub">전체 임상시험 프로젝트 관리</div></div>
+        <button class="btn btn-primary" onclick="openProjectModal()" id="btn-add-project2">+ 프로젝트 추가</button>
+      </div>
+      <div class="tabs">
+        <div class="tab active" onclick="filterProjects('all', this)">전체</div>
+        <div class="tab" onclick="filterProjects('ongoing', this)">진행중</div>
+        <div class="tab" onclick="filterProjects('planning', this)">준비중</div>
+        <div class="tab" onclick="filterProjects('completed', this)">완료</div>
+        <div class="tab" onclick="filterProjects('onhold', this)">보류</div>
+      </div>
+      <div class="proj-grid" id="projects-grid"></div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="page" id="page-timeline">
+      <div class="page-header">
+        <div><div class="page-title">마일스톤 타임라인</div><div class="page-sub">프로젝트별 주요 일정 관리</div></div>
+      </div>
+      <div class="form-group" style="max-width:280px;margin-bottom:20px;">
+        <select id="tl-project-sel" onchange="loadTimeline()">
+          <option value="">— 프로젝트 선택 —</option>
+        </select>
+      </div>
+      <div id="timeline-content"></div>
+    </div>
+
+    <!-- ENROLLMENT -->
+    <div class="page" id="page-enrollment">
+      <div class="page-header">
+        <div><div class="page-title">대상자 모집 현황</div><div class="page-sub">사이트별 스크리닝·등록·탈락·방문·AE 현황</div></div>
+        <button class="btn btn-secondary btn-sm" onclick="openSiteModal()">+ 사이트 추가</button>
+      </div>
+      <div class="form-group" style="max-width:280px;margin-bottom:20px;">
+        <select id="enroll-project-sel" onchange="loadEnrollment()">
+          <option value="">— 프로젝트 선택 —</option>
+        </select>
+      </div>
+      <div id="enrollment-content"></div>
+    </div>
+
+    <!-- USERS -->
+    <div class="page" id="page-users">
+      <div class="page-header">
+        <div><div class="page-title">사용자 관리</div><div class="page-sub">팀원 및 연구자 계정 관리</div></div>
+        <button class="btn btn-primary" onclick="openUserModal()">+ 사용자 추가</button>
+      </div>
+      <div class="card">
+        <div class="table-wrap"><table>
+          <thead><tr><th>이름</th><th>이메일</th><th>역할</th><th>소속</th><th>등록일</th><th>작업</th></tr></thead>
+          <tbody id="users-table"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTIGATOR VIEW (role=inv) -->
+<div id="inv-view" style="display:none; background:var(--bg); min-height:100vh; padding:32px;">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+      <div style="font-size:18px;font-weight:700;">🧪 IBL Clinical PM <span style="font-size:13px;color:var(--text2);font-weight:400;">· 대상자 현황 업데이트</span></div>
+      <button class="btn btn-secondary btn-sm" onclick="doLogout()">로그아웃</button>
+    </div>
+    <div style="margin-bottom:16px;color:var(--text2);font-size:13px;" id="inv-site-info"></div>
+    <div class="form-group" style="max-width:260px;margin-bottom:20px;">
+      <label>프로젝트 선택</label>
+      <select id="inv-project-sel" onchange="loadInvSites()">
+        <option value="">— 선택 —</option>
+      </select>
+    </div>
+    <div id="inv-sites-content"></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- Project Modal -->
+<div class="modal-overlay" id="modal-project">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-project-title">프로젝트 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-project')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="grid-2">
+        <div class="form-group"><label>프로젝트 코드 *</label><input id="proj-code" placeholder="IBL-2025-001"></div>
+        <div class="form-group"><label>시험 단계</label>
+          <select id="proj-phase">
+            <option>BE Study</option><option>Phase I</option><option>Phase II</option><option>Phase III</option><option>인체적용시험</option><option>의료기기 임상</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>프로젝트명 (시험약명/적응증) *</label><input id="proj-title" placeholder="OOO 정 생동성시험"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>의뢰사 *</label><input id="proj-sponsor" placeholder="(주)제약사"></div>
+        <div class="form-group"><label>책임연구자 (PI)</label><input id="proj-pi" placeholder="홍길동"></div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>목표 대상자 수 (N)</label><input id="proj-n" type="number" placeholder="24"></div>
+        <div class="form-group"><label>상태</label>
+          <select id="proj-status">
+            <option value="planning">준비중</option><option value="ongoing">진행중</option><option value="completed">완료</option><option value="onhold">보류</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>시작일</label><input id="proj-start" type="date"></div>
+        <div class="form-group"><label>종료 예정일</label><input id="proj-end" type="date"></div>
+      </div>
+      <div class="form-group"><label>비고</label><textarea id="proj-memo" placeholder="시험 개요, 특이사항 등"></textarea></div>
+      <div style="background:var(--bg3);border-radius:8px;padding:14px;margin-top:4px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;">⚡ 마일스톤 템플릿 자동 생성</div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
+          <input type="checkbox" id="proj-gen-milestone" checked style="width:auto;">
+          임상시험 표준 마일스톤 자동 생성 (IRB → 계약 → 스크리닝 → 투약 → 종료 → CSR)
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-project')">취소</button>
+      <button class="btn btn-primary" onclick="saveProject()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Milestone Modal -->
+<div class="modal-overlay" id="modal-milestone">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">마일스톤 추가/수정</div>
+      <button class="modal-close" onclick="closeModal('modal-milestone')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ms-id">
+      <input type="hidden" id="ms-project-id">
+      <div class="form-group"><label>마일스톤명 *</label><input id="ms-name" placeholder="예: IRB 승인"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>예정일 *</label><input id="ms-date" type="date"></div>
+        <div class="form-group"><label>실제 완료일</label><input id="ms-actual" type="date"></div>
+      </div>
+      <div class="form-group"><label>상태</label>
+        <select id="ms-status">
+          <option value="pending">예정</option><option value="active">진행중</option><option value="done">완료</option><option value="late">지연</option>
+        </select>
+      </div>
+      <div class="form-group"><label>메모</label><input id="ms-note" placeholder="비고"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger btn-sm" onclick="deleteMilestone()" id="btn-del-ms" style="margin-right:auto;display:none;">삭제</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-milestone')">취소</button>
+      <button class="btn btn-primary" onclick="saveMilestone()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Site Modal -->
+<div class="modal-overlay" id="modal-site">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">사이트 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-site')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>프로젝트 선택 *</label>
+        <select id="site-project-sel"></select>
+      </div>
+      <div class="form-group"><label>사이트명 *</label><input id="site-name" placeholder="○○대학교병원"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>국가</label><input id="site-country" placeholder="대한민국" value="대한민국"></div>
+        <div class="form-group"><label>목표 N</label><input id="site-n" type="number" placeholder="12"></div>
+      </div>
+      <div class="form-group"><label>담당 연구자 (PI)</label><input id="site-pi" placeholder="홍길동 교수"></div>
+      <div class="form-group"><label>방문 수 설정</label><input id="site-visits" type="number" placeholder="3" value="3" min="1" max="20"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-site')">취소</button>
+      <button class="btn btn-primary" onclick="saveSite()">추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- User Modal -->
+<div class="modal-overlay" id="modal-user">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">사용자 추가</div>
+      <button class="modal-close" onclick="closeModal('modal-user')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>이름 *</label><input id="u-name" placeholder="홍길동"></div>
+      <div class="form-group"><label>이메일 *</label><input id="u-email" type="email" placeholder="user@example.com"></div>
+      <div class="form-group"><label>임시 비밀번호 *</label><input id="u-pw" type="password" placeholder="초기 비밀번호"></div>
+      <div class="grid-2">
+        <div class="form-group"><label>역할 *</label>
+          <select id="u-role">
+            <option value="admin">Admin (팀내)</option>
+            <option value="inv">Investigator (연구자)</option>
+            <option value="sponsor">Sponsor (의뢰사)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>소속</label><input id="u-org" placeholder="소속 기관"></div>
+      </div>
+      <div class="form-group" id="u-site-group" style="display:none;"><label>배정 사이트 (연구자용)</label><input id="u-site" placeholder="사이트명"></div>
+      <div class="err" id="user-err"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-user')">취소</button>
+      <button class="btn btn-primary" onclick="saveUser()">추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- Project Detail Modal -->
+<div class="modal-overlay" id="modal-proj-detail">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="detail-title">-</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;" id="detail-code">-</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-secondary btn-sm" onclick="copyShareLink()" id="btn-share-link">🔗 의뢰사 링크</button>
+        <button class="modal-close" onclick="closeModal('modal-proj-detail')">×</button>
+      </div>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ============ FIREBASE CONFIG ============
+const firebaseConfig = {
+  apiKey: "AIzaSyAXVPZE0Sf3BDlj4a8ZE6dNkg1n5ozJfQU",
+  authDomain: "ecrf-edad0.firebaseapp.com",
+  projectId: "ecrf-edad0",
+  storageBucket: "ecrf-edad0.firebasestorage.app",
+  messagingSenderId: "627500139154",
+  appId: "1:627500139154:web:a2406bd027bb011ff39c4b",
+  measurementId: "G-7M4PXZY255"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const fdb = firebase.firestore();
+fdb.settings({ experimentalForceLongPolling: true, merge: true });
+const FV = firebase.firestore.FieldValue;
+
+// ============ STATE ============
+let CUR_USER = null;
+let PROJECTS = [];
+let MILESTONES = [];
+let SITES = [];
+let USERS = [];
+let CUR_PROJECT_ID = null; // for milestone/detail
+let CUR_MS_ID = null;
+let PROJ_FILTER = 'all';
+let INV_PROJECT_ID = null;
+
+// ============ LANGUAGE ============
+let LANG = 'ko';
+const TRANSLATIONS = {
+  dashboard: {ko:'대시보드', en:'Dashboard'},
+  projects: {ko:'프로젝트 목록', en:'Projects'},
+  timeline: {ko:'마일스톤 타임라인', en:'Milestone Timeline'},
+  enrollment: {ko:'대상자 모집 현황', en:'Enrollment Status'},
+  users: {ko:'사용자 관리', en:'User Management'},
+  addProject: {ko:'+ 프로젝트 추가', en:'+ Add Project'},
+  logout: {ko:'로그아웃', en:'Logout'},
+  totalProjects: {ko:'전체 프로젝트', en:'Total Projects'},
+  ongoing: {ko:'진행중', en:'Ongoing'},
+  completed: {ko:'완료', en:'Completed'},
+  totalEnrolled: {ko:'총 등록 대상자', en:'Total Enrolled'},
+  ongoingProjects: {ko:'진행중 프로젝트', en:'Ongoing Projects'},
+  enrollmentSummary: {ko:'모집 현황 요약', en:'Enrollment Summary'},
+  upcomingMilestones: {ko:'임박한 마일스톤 (30일 이내)', en:'Upcoming Milestones (30 days)'},
+  planning: {ko:'준비중', en:'Planning'},
+  onhold: {ko:'보류', en:'On Hold'},
+};
+
+function T(key) { return TRANSLATIONS[key] ? (TRANSLATIONS[key][LANG] || TRANSLATIONS[key].ko) : key; }
+
+function toggleLang() {
+  LANG = LANG === 'ko' ? 'en' : 'ko';
+  document.getElementById('lang-toggle-btn').textContent = LANG === 'ko' ? 'EN' : '한';
+  document.getElementById('btn-logout-label').textContent = T('logout');
+  // Re-render current page
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    const pid = activePage.id.replace('page-','');
+    if (pid === 'dashboard') renderDashboard();
+    else if (pid === 'projects') renderProjectsGrid();
+    else if (pid === 'timeline') loadTimeline();
+    else if (pid === 'enrollment') loadEnrollment();
+  }
+  // Update nav labels
+  document.querySelector('#nav-dashboard').innerHTML = '<span class="icon">📊</span>' + (LANG==='ko'?'대시보드':'Dashboard');
+  document.querySelector('#nav-projects').innerHTML = '<span class="icon">📁</span>' + (LANG==='ko'?'프로젝트 목록':'Projects');
+  document.querySelector('#nav-timeline').innerHTML = '<span class="icon">📅</span>' + (LANG==='ko'?'마일스톤 타임라인':'Milestones');
+  document.querySelector('#nav-enrollment').innerHTML = '<span class="icon">👥</span>' + (LANG==='ko'?'대상자 모집':'Enrollment');
+  document.querySelector('#nav-users').innerHTML = '<span class="icon">⚙️</span>' + (LANG==='ko'?'사용자 관리':'Users');
+  const btn1 = document.getElementById('btn-add-project');
+  const btn2 = document.getElementById('btn-add-project2');
+  if (btn1) btn1.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
+  if (btn2) btn2.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
+}
+
+// ============ AUTH ============
+const authTimeout = setTimeout(() => {
+  hideLoad();
+  document.getElementById('auth').style.display = 'flex';
+}, 5000);
+
+auth.onAuthStateChanged(async user => {
+  clearTimeout(authTimeout);
+  hideLoad();
+  if (!user) {
+    document.getElementById('auth').style.display = 'flex';
+    return;
+  }
+  // Load user profile
+  const snap = await fdb.collection('pm_users').doc(user.uid).get();
+  if (!snap.exists) {
+    toast('사용자 정보 없음', 'error');
+    auth.signOut();
+    return;
+  }
+  CUR_USER = { uid: user.uid, ...snap.data() };
+
+  // Check URL for sponsor view
+  const params = new URLSearchParams(location.search);
+  if (params.get('view') === 'sponsor') {
+    renderSponsorView(params.get('pid'));
+    return;
+  }
+
+  if (CUR_USER.role === 'inv') {
+    renderInvView();
+  } else {
+    renderAdminView();
+  }
+});
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw = document.getElementById('login-pw').value;
+  document.getElementById('login-err').textContent = '';
+  try {
+    await auth.signInWithEmailAndPassword(email, pw);
+  } catch(e) {
+    document.getElementById('login-err').textContent = '이메일 또는 비밀번호가 올바르지 않습니다.';
+  }
+}
+
+function doLogout() {
+  auth.signOut().then(() => location.reload());
+}
+
+function hideLoad() {
+  document.getElementById('loading').style.display = 'none';
+}
+
+// ============ ADMIN/PM VIEW ============
+async function renderAdminView() {
+  document.getElementById('auth').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('user-name-display').textContent = CUR_USER.name;
+  document.getElementById('user-role-display').textContent = roleLabel(CUR_USER.role);
+  document.getElementById('user-avatar').textContent = CUR_USER.name[0];
+
+  // Hide admin nav if not admin
+  if (CUR_USER.role !== 'admin') {
+    document.getElementById('nav-section-admin').style.display = 'none';
+    document.getElementById('nav-users').style.display = 'none';
+    document.getElementById('btn-add-project') && (document.getElementById('btn-add-project').style.display='none');
+    document.getElementById('btn-add-project2') && (document.getElementById('btn-add-project2').style.display='none');
+  }
+
+  await loadAllData();
+  renderDashboard();
+}
+
+async function loadAllData() {
+  const [projSnap, msSnap, siteSnap] = await Promise.all([
+    fdb.collection('pm_projects').orderBy('createdAt','desc').get(),
+    fdb.collection('pm_milestones').get(),
+    fdb.collection('pm_sites').get()
+  ]);
+  PROJECTS = projSnap.docs.map(d => ({id:d.id,...d.data()}));
+  MILESTONES = msSnap.docs.map(d => ({id:d.id,...d.data()}));
+  SITES = siteSnap.docs.map(d => ({id:d.id,...d.data()}));
+  populateProjectSelects();
+}
+
+function populateProjectSelects() {
+  const sels = ['tl-project-sel','enroll-project-sel','inv-project-sel','site-project-sel'];
+  sels.forEach(sid => {
+    const el = document.getElementById(sid);
+    if (!el) return;
+    const cur = el.value;
+    el.innerHTML = '<option value="">— 프로젝트 선택 —</option>';
+    PROJECTS.forEach(p => {
+      el.innerHTML += `<option value="${p.id}">${p.code} · ${p.title}</option>`;
+    });
+    if (cur) el.value = cur;
+  });
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  const total = PROJECTS.length;
+  const ongoing = PROJECTS.filter(p=>p.status==='ongoing').length;
+  const completed = PROJECTS.filter(p=>p.status==='completed').length;
+  const enrolled = SITES.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-ongoing').textContent = ongoing;
+  document.getElementById('stat-completed').textContent = completed;
+  document.getElementById('stat-enrolled').textContent = enrolled;
+  const lblTotal = document.getElementById('lbl-total'); if(lblTotal) lblTotal.textContent = T('totalProjects');
+  const lblOngoing = document.getElementById('lbl-ongoing'); if(lblOngoing) lblOngoing.textContent = T('ongoing');
+  const lblCompleted = document.getElementById('lbl-completed'); if(lblCompleted) lblCompleted.textContent = T('completed');
+  const lblEnrolled = document.getElementById('lbl-enrolled'); if(lblEnrolled) lblEnrolled.textContent = T('totalEnrolled');
+
+  // Ongoing projects list
+  const ongoingList = PROJECTS.filter(p=>p.status==='ongoing').slice(0,5);
+  document.getElementById('dash-projects-list').innerHTML = ongoingList.length
+    ? ongoingList.map(p => {
+        const sites = SITES.filter(s=>s.projectId===p.id);
+        const enrolled = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+        const pct = p.n ? Math.round(enrolled/p.n*100) : 0;
+        return `<div style="margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="font-size:13px;font-weight:600;">${p.title}</div>
+            <div style="font-size:11px;color:var(--text2);">${enrolled}/${p.n||'?'}명</div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">${p.code} · ${p.sponsor||''}</div>
+          <div class="prog-bar"><div class="prog-fill ${pct>=100?'green':'blue'}" style="width:${Math.min(pct,100)}%"></div></div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--text3);font-size:13px;padding:10px 0;">진행중인 프로젝트 없음</div>';
+
+  // Enrollment chart
+  const withEnroll = PROJECTS.filter(p=>p.status==='ongoing').slice(0,6);
+  document.getElementById('dash-enroll-chart').innerHTML = withEnroll.length
+    ? withEnroll.map(p => {
+        const sites = SITES.filter(s=>s.projectId===p.id);
+        const enrolled = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+        const n = parseInt(p.n)||1;
+        const pct = Math.min(Math.round(enrolled/n*100),100);
+        return `<div class="enroll-bar">
+          <div class="enroll-label" title="${p.code}">${p.code}</div>
+          <div class="enroll-track"><div class="enroll-fill ${pct>=100?'full':''}" style="width:${pct}%"></div></div>
+          <div class="enroll-num" style="width:50px;text-align:right;font-size:12px;color:var(--text2);">${enrolled}/${n}</div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--text3);font-size:13px;">데이터 없음</div>';
+
+  // Upcoming milestones
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d30 = new Date(today); d30.setDate(d30.getDate()+30);
+  const upcoming = MILESTONES.filter(m => {
+    if (m.status==='done') return false;
+    if (m.disabled) return false;
+    const d = new Date(m.date);
+    return d >= today && d <= d30;
+  }).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,6);
+
+  document.getElementById('dash-milestones').innerHTML = upcoming.length
+    ? `<div class="table-wrap"><table>
+        <thead><tr><th>프로젝트</th><th>마일스톤</th><th>예정일</th><th>상태</th><th>D-</th></tr></thead>
+        <tbody>${upcoming.map(m => {
+          const p = PROJECTS.find(x=>x.id===m.projectId);
+          const diff = Math.ceil((new Date(m.date)-today)/(1000*60*60*24));
+          return `<tr>
+            <td><span style="font-size:11px;color:var(--text2);">${p?.code||'-'}</span></td>
+            <td style="font-weight:500;">${m.name}</td>
+            <td><span style="font-family:'DM Mono';font-size:12px;">${m.date}</span></td>
+            <td>${msBadge(m.status)}</td>
+            <td><span style="color:${diff<=7?'var(--red)':diff<=14?'var(--yellow)':'var(--text2)'};font-weight:600;font-family:'DM Mono';font-size:12px;">D-${diff}</span></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`
+    : '<div style="color:var(--text3);font-size:13px;padding:10px 0;">30일 이내 임박한 마일스톤 없음</div>';
+}
+
+// ============ PROJECTS PAGE ============
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name)?.classList.add('active');
+
+  if (name==='projects') renderProjectsGrid();
+  if (name==='timeline') { loadTimeline(); }
+  if (name==='enrollment') loadEnrollment();
+  if (name==='users') loadUsers();
+  if (name==='dashboard') renderDashboard();
+}
+
+function filterProjects(f, el) {
+  PROJ_FILTER = f;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderProjectsGrid();
+}
+
+function renderProjectsGrid() {
+  let list = PROJ_FILTER==='all' ? PROJECTS : PROJECTS.filter(p=>p.status===PROJ_FILTER);
+  document.getElementById('projects-grid').innerHTML = list.length
+    ? list.map(p => projCard(p)).join('')
+    : '<div style="color:var(--text3);padding:20px;">프로젝트 없음</div>';
+}
+
+function projCard(p) {
+  const sites = SITES.filter(s=>s.projectId===p.id);
+  const enrolled = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+  const n = parseInt(p.n)||0;
+  const pct = n ? Math.round(enrolled/n*100) : 0;
+  const statusMap = LANG==='ko' ? {ongoing:'진행중',planning:'준비중',completed:'완료',onhold:'보류'} : {ongoing:'Ongoing',planning:'Planning',completed:'Completed',onhold:'On Hold'};
+  const badgeMap = {ongoing:'badge-blue',planning:'badge-yellow',completed:'badge-green',onhold:'badge-gray'};
+  return `<div class="proj-card status-${p.status}" onclick="openProjDetail('${p.id}')">
+    <div class="proj-card-top">
+      <span class="proj-code">${p.code}</span>
+      <span class="badge ${badgeMap[p.status]||'badge-gray'}">${statusMap[p.status]||p.status}</span>
+    </div>
+    <div class="proj-title">${p.title}</div>
+    <div class="proj-sponsor">📋 ${p.sponsor||'의뢰사 미입력'} &nbsp;·&nbsp; 🏥 ${p.pi||'PI 미입력'}</div>
+    <div class="proj-meta">
+      <div class="proj-meta-item">단계: <span>${p.phase||'-'}</span></div>
+      <div class="proj-meta-item">사이트: <span>${sites.length}개</span></div>
+      ${p.end ? `<div class="proj-meta-item">종료예정: <span>${p.end}</span></div>` : ''}
+    </div>
+    <div class="proj-progress">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;">
+        <span>대상자 등록</span><span>${enrolled}/${n||'?'}명 (${pct}%)</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill ${pct>=100?'green':'blue'}" style="width:${Math.min(pct,100)}%"></div></div>
+    </div>
+  </div>`;
+}
+
+// ============ PROJECT DETAIL MODAL ============
+async function openProjDetail(pid) {
+  CUR_PROJECT_ID = pid;
+  const p = PROJECTS.find(x=>x.id===pid);
+  if (!p) return;
+  document.getElementById('detail-title').textContent = p.title;
+  document.getElementById('detail-code').textContent = `${p.code} · ${p.phase||''} · ${p.sponsor||''}`;
+  document.getElementById('btn-share-link').onclick = () => copyShareLink(pid);
+
+  const msList = MILESTONES.filter(m=>m.projectId===pid).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const sites = SITES.filter(s=>s.projectId===pid);
+  const enrolled = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+  const screened = sites.reduce((s,x)=>s+(parseInt(x.screened)||0),0);
+  const dropout = sites.reduce((s,x)=>s+(parseInt(x.dropout)||0),0);
+  const ae = sites.reduce((s,x)=>s+(parseInt(x.ae)||0),0);
+  const n = parseInt(p.n)||0;
+
+  document.getElementById('detail-body').innerHTML = `
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">📊 모집 현황</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          ${statBox('스크리닝',screened,'var(--text)')}
+          ${statBox('등록',enrolled,'var(--accent)')}
+          ${statBox('탈락',dropout,'var(--red)')}
+          ${statBox('AE',ae,'var(--yellow)')}
+        </div>
+        <div class="prog-bar" style="margin-top:12px;height:6px;"><div class="prog-fill ${enrolled>=n?'green':'blue'}" style="width:${n?Math.min(Math.round(enrolled/n*100),100):0}%"></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">목표 ${n}명 대비 ${n?Math.round(enrolled/n*100):0}% 등록</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">📋 프로젝트 정보</div>
+        <div style="font-size:13px;line-height:1.8;">
+          <div><span style="color:var(--text3);">PI: </span>${p.pi||'-'}</div>
+          <div><span style="color:var(--text3);">시작: </span>${p.start||'-'}</div>
+          <div><span style="color:var(--text3);">종료예정: </span>${p.end||'-'}</div>
+          ${p.memo ? `<div style="margin-top:8px;font-size:12px;color:var(--text2);">${p.memo}</div>` : ''}
+        </div>
+      </div>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);">📅 마일스톤</div>
+        ${CUR_USER.role==='admin'?`<button class="btn btn-secondary btn-sm" onclick="openMilestoneModal(null,'${pid}')">+ 추가</button>`:''}
+      </div>
+      <div class="timeline" id="detail-timeline">
+        ${msList.length ? msList.map(m => tlItem(m, pid)).join('') : '<div style="color:var(--text3);font-size:13px;">마일스톤 없음</div>'}
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px;">🏥 사이트별 현황</div>
+      ${sites.length ? sites.map(s => siteRow(s)).join('') : '<div style="color:var(--text3);font-size:13px;">등록된 사이트 없음</div>'}
+    </div>
+  `;
+  document.getElementById('modal-proj-detail').classList.add('open');
+}
+
+function statBox(label, val, color) {
+  return `<div style="background:var(--bg3);border-radius:8px;padding:12px;text-align:center;">
+    <div style="font-size:20px;font-weight:700;color:${color};">${val}</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:2px;">${label}</div>
+  </div>`;
+}
+
+function tlItem(m, pid) {
+  const isDisabled = m.disabled === true;
+  const dotClass = isDisabled ? 'disabled' : ({done:'done',active:'active',late:'late',pending:'pending'}[m.status]||'pending');
+  const icon = isDisabled ? '➖' : ({done:'✅',active:'🔵',late:'🔴',pending:'⬜'}[m.status]||'⬜');
+  const isAdmin = CUR_USER?.role==='admin';
+  const editBtn = isAdmin ? `<span style="font-size:11px;color:var(--accent);cursor:pointer;margin-left:8px;" onclick="openMilestoneModal('${m.id}','${pid}')">[${LANG==='ko'?'수정':'Edit'}]</span>` : '';
+  const disableBtn = isAdmin ? `<span style="font-size:11px;cursor:pointer;margin-left:6px;padding:1px 6px;border-radius:4px;border:1px solid ${isDisabled?'var(--green)':'var(--border)'};color:${isDisabled?'var(--green)':'var(--text3)'};" onclick="toggleMilestoneDisabled('${m.id}','${pid}',${isDisabled})">${isDisabled?(LANG==='ko'?'활성화':'Enable'):(LANG==='ko'?'비활성화':'Disable')}</span>` : '';
+  return `<div class="timeline-item" style="${isDisabled?'opacity:0.4;':''}">
+    <div class="tl-line"></div>
+    <div class="tl-dot ${dotClass}">${icon}</div>
+    <div class="tl-content">
+      <div class="tl-title" style="${isDisabled?'text-decoration:line-through;color:var(--text3);':''}">
+        ${m.name}${editBtn}${disableBtn}
+      </div>
+      ${!isDisabled?`<div class="tl-date">${LANG==='ko'?'예정':'Planned'}: ${m.date}${m.actual?' · '+(LANG==='ko'?'완료':'Completed')+': '+m.actual:''}</div>`:'<div class="tl-date" style="color:var(--text3);">'+(LANG==='ko'?'해당 없음 (비활성화)':'N/A (Disabled)')+'</div>'}
+      ${(!isDisabled && m.note)?`<div class="tl-note">${m.note}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function siteRow(s) {
+  const visits = parseInt(s.visits)||3;
+  const visitData = s.visitData || {};
+  const completedVisits = Object.values(visitData).filter(v=>v==='done').length;
+  return `<div class="site-update-card">
+    <div class="site-update-header">
+      <div><div class="site-name">${s.name}</div><div class="site-country" style="font-size:11px;color:var(--text2);">${s.country||''} · PI: ${s.pi||'-'}</div></div>
+      <div style="font-size:12px;color:var(--text2);">목표 ${s.n||'?'}명</div>
+    </div>
+    <div class="inp-row">
+      <div class="inp-box"><label>스크리닝</label><div style="font-size:20px;font-weight:700;color:var(--text);text-align:center;">${s.screened||0}</div></div>
+      <div class="inp-box"><label>등록</label><div style="font-size:20px;font-weight:700;color:var(--accent);text-align:center;">${s.enrolled||0}</div></div>
+      <div class="inp-box"><label>탈락</label><div style="font-size:20px;font-weight:700;color:var(--red);text-align:center;">${s.dropout||0}</div></div>
+      <div class="inp-box"><label>AE</label><div style="font-size:20px;font-weight:700;color:var(--yellow);text-align:center;">${s.ae||0}</div></div>
+    </div>
+    ${visits>0?`<div style="margin-top:10px;font-size:11px;color:var(--text3);">방문 완료: Visit ${Array.from({length:visits},(_, i)=>i+1).map(v=>`<span style="padding:2px 6px;border-radius:4px;margin:0 2px;background:${visitData['v'+v]==='done'?'rgba(52,211,153,0.2)':'var(--bg3)'};color:${visitData['v'+v]==='done'?'var(--green)':'var(--text3)'};">V${v}</span>`).join('')}</div>`:''}
+  </div>`;
+}
+
+// ============ TIMELINE PAGE ============
+async function loadTimeline() {
+  const pid = document.getElementById('tl-project-sel').value;
+  if (!pid) { document.getElementById('timeline-content').innerHTML = '<div style="color:var(--text3);">프로젝트를 선택해주세요.</div>'; return; }
+  CUR_PROJECT_ID = pid;
+  const msList = MILESTONES.filter(m=>m.projectId===pid).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  document.getElementById('timeline-content').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+      ${CUR_USER.role==='admin'?`<button class="btn btn-primary btn-sm" onclick="openMilestoneModal(null,'${pid}')">+ 마일스톤 추가</button>`:''}
+    </div>
+    <div class="card">
+      <div class="timeline" id="tl-main">
+        ${msList.length ? msList.map(m=>tlItem(m,pid)).join('') : '<div style="color:var(--text3);">마일스톤 없음</div>'}
+      </div>
+    </div>`;
+}
+
+// ============ MILESTONE MODAL ============
+function openMilestoneModal(msId, pid) {
+  CUR_MS_ID = msId;
+  document.getElementById('ms-id').value = msId||'';
+  document.getElementById('ms-project-id').value = pid||CUR_PROJECT_ID||'';
+  document.getElementById('btn-del-ms').style.display = msId ? 'inline-flex' : 'none';
+  if (msId) {
+    const m = MILESTONES.find(x=>x.id===msId);
+    if (m) {
+      document.getElementById('ms-name').value = m.name||'';
+      document.getElementById('ms-date').value = m.date||'';
+      document.getElementById('ms-actual').value = m.actual||'';
+      document.getElementById('ms-status').value = m.status||'pending';
+      document.getElementById('ms-note').value = m.note||'';
+    }
+  } else {
+    document.getElementById('ms-name').value='';
+    document.getElementById('ms-date').value='';
+    document.getElementById('ms-actual').value='';
+    document.getElementById('ms-status').value='pending';
+    document.getElementById('ms-note').value='';
+  }
+  document.getElementById('modal-milestone').classList.add('open');
+}
+
+async function saveMilestone() {
+  const pid = document.getElementById('ms-project-id').value;
+  const existingMs = MILESTONES.find(x=>x.id===CUR_MS_ID);
+  const data = {
+    projectId: pid,
+    name: document.getElementById('ms-name').value.trim(),
+    date: document.getElementById('ms-date').value,
+    actual: document.getElementById('ms-actual').value,
+    status: document.getElementById('ms-status').value,
+    note: document.getElementById('ms-note').value.trim(),
+    disabled: existingMs?.disabled || false,
+    updatedAt: FV.serverTimestamp()
+  };
+  if (!data.name || !data.date) { toast('마일스톤명과 예정일을 입력하세요.','error'); return; }
+  if (CUR_MS_ID) {
+    await fdb.collection('pm_milestones').doc(CUR_MS_ID).update(data);
+    const idx = MILESTONES.findIndex(x=>x.id===CUR_MS_ID);
+    if (idx>=0) MILESTONES[idx] = {id:CUR_MS_ID,...data};
+  } else {
+    data.createdAt = FV.serverTimestamp();
+    const ref = await fdb.collection('pm_milestones').add(data);
+    MILESTONES.push({id:ref.id,...data});
+  }
+  closeModal('modal-milestone');
+  toast('마일스톤 저장 완료','success');
+  await loadTimeline();
+  if (document.getElementById('modal-proj-detail').classList.contains('open')) openProjDetail(pid);
+}
+
+async function toggleMilestoneDisabled(msId, pid, currentlyDisabled) {
+  const newDisabled = !currentlyDisabled;
+  await fdb.collection('pm_milestones').doc(msId).update({disabled: newDisabled, updatedAt: FV.serverTimestamp()});
+  const idx = MILESTONES.findIndex(x=>x.id===msId);
+  if (idx>=0) MILESTONES[idx].disabled = newDisabled;
+  // Re-render timeline or detail
+  if (document.getElementById('modal-proj-detail').classList.contains('open')) {
+    openProjDetail(pid);
+  }
+  loadTimeline();
+  toast(newDisabled ? (LANG==='ko'?'비활성화됨':'Disabled') : (LANG==='ko'?'활성화됨':'Enabled'), 'info');
+}
+
+async function deleteMilestone() {
+  if (!CUR_MS_ID) return;
+  if (!confirm('마일스톤을 삭제하시겠습니까?')) return;
+  await fdb.collection('pm_milestones').doc(CUR_MS_ID).delete();
+  MILESTONES = MILESTONES.filter(x=>x.id!==CUR_MS_ID);
+  closeModal('modal-milestone');
+  toast('삭제 완료','info');
+  loadTimeline();
+}
+
+// ============ PROJECT MODAL ============
+let EDIT_PROJ_ID = null;
+function openProjectModal(pid) {
+  EDIT_PROJ_ID = pid||null;
+  if (pid) {
+    const p = PROJECTS.find(x=>x.id===pid);
+    if (p) {
+      document.getElementById('modal-project-title').textContent = '프로젝트 수정';
+      document.getElementById('proj-code').value=p.code||'';
+      document.getElementById('proj-phase').value=p.phase||'BE Study';
+      document.getElementById('proj-title').value=p.title||'';
+      document.getElementById('proj-sponsor').value=p.sponsor||'';
+      document.getElementById('proj-pi').value=p.pi||'';
+      document.getElementById('proj-n').value=p.n||'';
+      document.getElementById('proj-status').value=p.status||'planning';
+      document.getElementById('proj-start').value=p.start||'';
+      document.getElementById('proj-end').value=p.end||'';
+      document.getElementById('proj-memo').value=p.memo||'';
+      document.getElementById('proj-gen-milestone').checked=false;
+    }
+  } else {
+    document.getElementById('modal-project-title').textContent = '프로젝트 추가';
+    ['proj-code','proj-title','proj-sponsor','proj-pi','proj-n','proj-start','proj-end','proj-memo'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.value='';
+    });
+    document.getElementById('proj-status').value='planning';
+    document.getElementById('proj-gen-milestone').checked=true;
+  }
+  document.getElementById('modal-project').classList.add('open');
+}
+
+async function saveProject() {
+  const data = {
+    code: document.getElementById('proj-code').value.trim(),
+    phase: document.getElementById('proj-phase').value,
+    title: document.getElementById('proj-title').value.trim(),
+    sponsor: document.getElementById('proj-sponsor').value.trim(),
+    pi: document.getElementById('proj-pi').value.trim(),
+    n: parseInt(document.getElementById('proj-n').value)||0,
+    status: document.getElementById('proj-status').value,
+    start: document.getElementById('proj-start').value,
+    end: document.getElementById('proj-end').value,
+    memo: document.getElementById('proj-memo').value.trim(),
+    updatedAt: FV.serverTimestamp()
+  };
+  if (!data.code || !data.title) { toast('코드와 프로젝트명을 입력하세요.','error'); return; }
+  const genMs = document.getElementById('proj-gen-milestone').checked;
+
+  if (EDIT_PROJ_ID) {
+    await fdb.collection('pm_projects').doc(EDIT_PROJ_ID).update(data);
+    const idx = PROJECTS.findIndex(x=>x.id===EDIT_PROJ_ID);
+    if (idx>=0) PROJECTS[idx]={id:EDIT_PROJ_ID,...PROJECTS[idx],...data};
+  } else {
+    data.createdAt = FV.serverTimestamp();
+    const ref = await fdb.collection('pm_projects').add(data);
+    PROJECTS.unshift({id:ref.id,...data});
+    if (genMs) await generateDefaultMilestones(ref.id, data.start);
+  }
+  closeModal('modal-project');
+  toast('프로젝트 저장 완료','success');
+  await loadAllData();
+  renderDashboard();
+  renderProjectsGrid();
+}
+
+async function generateDefaultMilestones(pid, startDate) {
+  const start = startDate ? new Date(startDate) : new Date();
+  const addDays = (d,n) => { const r=new Date(d); r.setDate(r.getDate()+n); return r.toISOString().split('T')[0]; };
+  const KO = LANG === 'ko';
+  const defaults = [
+    {name: KO ? '계약 체결' : 'Contract Execution', offset:0, status:'pending', disabled:false},
+    {name: KO ? 'IB (Investigator Brochure) 전달' : 'IB Delivery', offset:3, status:'pending', disabled:false},
+    {name: KO ? '임상시험계획서 작성' : 'Protocol Drafting', offset:7, status:'pending', disabled:false},
+    {name: KO ? '임상시험계획서 검토' : 'Protocol Review', offset:21, status:'pending', disabled:false},
+    {name: KO ? '임상시험계획서 최종화' : 'Protocol Finalization', offset:35, status:'pending', disabled:false},
+    {name: KO ? 'IRB 승인' : 'IRB Approval', offset:45, status:'pending', disabled:false},
+    {name: KO ? '개시모임 (SIV)' : 'Site Initiation Visit (SIV)', offset:55, status:'pending', disabled:false},
+    {name: KO ? '스크리닝 시작' : 'Screening Start', offset:65, status:'pending', disabled:false},
+    {name: KO ? '투약 시작 (First Dose)' : 'First Dose', offset:80, status:'pending', disabled:false},
+    {name: KO ? '종료 방문 (Last Visit)' : 'Last Subject Last Visit', offset:160, status:'pending', disabled:false},
+    {name: KO ? '검체 분석 시작' : 'Sample Analysis Start', offset:165, status:'pending', disabled:false},
+    {name: KO ? '검체 분석 완료' : 'Sample Analysis Complete', offset:195, status:'pending', disabled:false},
+    {name: KO ? '종료 모임 (COV)' : 'Close-Out Visit (COV)', offset:175, status:'pending', disabled:false},
+    {name: KO ? '데이터베이스 잠금 (DB Lock)' : 'Database Lock', offset:200, status:'pending', disabled:false},
+    {name: KO ? '통계분석 완료' : 'Statistical Analysis Complete', offset:220, status:'pending', disabled:false},
+    {name: KO ? '임상시험결과보고서 (CSR) 완료' : 'CSR Completion', offset:250, status:'pending', disabled:false},
+  ];
+  const batch = fdb.batch();
+  defaults.forEach(m => {
+    const ref = fdb.collection('pm_milestones').doc();
+    batch.set(ref, {projectId:pid, name:m.name, date:addDays(start,m.offset), actual:'', status:m.status, note:'', disabled:false, createdAt:FV.serverTimestamp(), updatedAt:FV.serverTimestamp()});
+    MILESTONES.push({id:ref.id, projectId:pid, name:m.name, date:addDays(start,m.offset), actual:'', status:m.status, note:'', disabled:false});
+  });
+  await batch.commit();
+}
+
+// ============ ENROLLMENT PAGE ============
+async function loadEnrollment() {
+  const pid = document.getElementById('enroll-project-sel').value;
+  if (!pid) { document.getElementById('enrollment-content').innerHTML = '<div style="color:var(--text3);">프로젝트를 선택해주세요.</div>'; return; }
+  const sites = SITES.filter(s=>s.projectId===pid);
+  const p = PROJECTS.find(x=>x.id===pid);
+
+  const totalScr = sites.reduce((s,x)=>s+(parseInt(x.screened)||0),0);
+  const totalEnr = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+  const totalDrp = sites.reduce((s,x)=>s+(parseInt(x.dropout)||0),0);
+  const totalAe = sites.reduce((s,x)=>s+(parseInt(x.ae)||0),0);
+  const n = parseInt(p?.n)||0;
+  const pct = n ? Math.min(Math.round(totalEnr/n*100),100) : 0;
+
+  document.getElementById('enrollment-content').innerHTML = `
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+      ${[['스크리닝',totalScr,'var(--text)'],['등록',totalEnr,'var(--accent)'],['탈락',totalDrp,'var(--red)'],['AE',totalAe,'var(--yellow)']].map(([l,v,c])=>`
+        <div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value" style="color:${c}">${v}</div><div class="stat-sub">목표 ${n}명 대비 ${l==='등록'?pct+'%':''}</div></div>
+      `).join('')}
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <button class="btn btn-secondary btn-sm" onclick="openSiteModal('${pid}')">+ 사이트 추가</button>
+    </div>
+    <div id="sites-list">
+      ${sites.length ? sites.map(s=>enrollSiteCard(s,p)).join('') : '<div style="color:var(--text3);">등록된 사이트 없음</div>'}
+    </div>`;
+}
+
+function enrollSiteCard(s, p) {
+  const visits = parseInt(s.visits)||3;
+  const visitData = s.visitData || {};
+  const isAdmin = CUR_USER?.role === 'admin';
+  return `<div class="site-update-card">
+    <div class="site-update-header">
+      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · PI: ${s.pi||'-'} · 목표 ${s.n||'?'}명</div></div>
+      ${isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteSite('${s.id}')">삭제</button>`:''}
+    </div>
+    <div class="inp-row">
+      ${['screened','enrolled','dropout','ae'].map((f,i)=>{
+        const labels=['스크리닝','등록','탈락','AE'];
+        return `<div class="inp-box"><label>${labels[i]}</label><input type="number" min="0" value="${s[f]||0}" onchange="updateSiteField('${s.id}','${f}',this.value)"></div>`;
+      }).join('')}
+    </div>
+    <div style="margin-top:12px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">방문 완료 현황</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${Array.from({length:visits},(_,i)=>i+1).map(v=>`
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;">
+            <input type="checkbox" onchange="updateVisit('${s.id}','v${v}',this.checked)" ${visitData['v'+v]==='done'?'checked':''} style="width:auto;">
+            <span style="color:${visitData['v'+v]==='done'?'var(--green)':'var(--text2)'}">V${v}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+async function updateSiteField(sid, field, val) {
+  await fdb.collection('pm_sites').doc(sid).update({[field]: parseInt(val)||0, updatedAt:FV.serverTimestamp()});
+  const idx = SITES.findIndex(x=>x.id===sid);
+  if (idx>=0) SITES[idx][field] = parseInt(val)||0;
+  toast('저장됨','success');
+}
+
+async function updateVisit(sid, vkey, checked) {
+  const upd = {[`visitData.${vkey}`]: checked?'done':'', updatedAt:FV.serverTimestamp()};
+  await fdb.collection('pm_sites').doc(sid).update(upd);
+  const idx = SITES.findIndex(x=>x.id===sid);
+  if (idx>=0) { if(!SITES[idx].visitData) SITES[idx].visitData={}; SITES[idx].visitData[vkey]=checked?'done':''; }
+  toast('저장됨','success');
+}
+
+async function deleteSite(sid) {
+  if (!confirm('사이트를 삭제하시겠습니까?')) return;
+  await fdb.collection('pm_sites').doc(sid).delete();
+  SITES = SITES.filter(x=>x.id!==sid);
+  toast('삭제 완료','info');
+  loadEnrollment();
+}
+
+// ============ SITE MODAL ============
+function openSiteModal(pid) {
+  document.getElementById('site-name').value='';
+  document.getElementById('site-country').value='대한민국';
+  document.getElementById('site-n').value='';
+  document.getElementById('site-pi').value='';
+  document.getElementById('site-visits').value='3';
+  if (pid) document.getElementById('site-project-sel').value=pid;
+  document.getElementById('modal-site').classList.add('open');
+}
+
+async function saveSite() {
+  const pid = document.getElementById('site-project-sel').value;
+  const name = document.getElementById('site-name').value.trim();
+  if (!pid || !name) { toast('프로젝트와 사이트명을 입력하세요.','error'); return; }
+  const data = {
+    projectId: pid,
+    name,
+    country: document.getElementById('site-country').value.trim(),
+    n: parseInt(document.getElementById('site-n').value)||0,
+    pi: document.getElementById('site-pi').value.trim(),
+    visits: parseInt(document.getElementById('site-visits').value)||3,
+    screened:0, enrolled:0, dropout:0, ae:0,
+    visitData:{},
+    createdAt:FV.serverTimestamp(), updatedAt:FV.serverTimestamp()
+  };
+  const ref = await fdb.collection('pm_sites').add(data);
+  SITES.push({id:ref.id,...data});
+  closeModal('modal-site');
+  toast('사이트 추가 완료','success');
+  loadEnrollment();
+}
+
+// ============ USERS ============
+async function loadUsers() {
+  const snap = await fdb.collection('pm_users').get();
+  USERS = snap.docs.map(d=>({id:d.id,...d.data()}));
+  const roleMap = {admin:'Admin',inv:'Investigator',sponsor:'Sponsor'};
+  const badgeMap = {admin:'badge-blue',inv:'badge-green',sponsor:'badge-purple'};
+  document.getElementById('users-table').innerHTML = USERS.map(u=>`
+    <tr>
+      <td style="font-weight:600;">${u.name}</td>
+      <td style="font-family:'DM Mono';font-size:12px;">${u.email}</td>
+      <td><span class="badge ${badgeMap[u.role]||'badge-gray'}">${roleMap[u.role]||u.role}</span></td>
+      <td>${u.org||'-'}</td>
+      <td style="font-size:12px;color:var(--text2);">${u.createdAt?.toDate?.().toLocaleDateString('ko-KR')||'-'}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}','${u.email}')">삭제</button></td>
+    </tr>
+  `).join('');
+}
+
+function openUserModal() {
+  ['u-name','u-email','u-pw','u-org','u-site'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('u-role').value='admin';
+  document.getElementById('user-err').textContent='';
+  document.getElementById('u-site-group').style.display='none';
+  document.getElementById('u-role').onchange = function(){
+    document.getElementById('u-site-group').style.display = this.value==='inv'?'block':'none';
+  };
+  document.getElementById('modal-user').classList.add('open');
+}
+
+async function saveUser() {
+  const name=document.getElementById('u-name').value.trim();
+  const email=document.getElementById('u-email').value.trim();
+  const pw=document.getElementById('u-pw').value;
+  const role=document.getElementById('u-role').value;
+  const org=document.getElementById('u-org').value.trim();
+  const site=document.getElementById('u-site').value.trim();
+  if(!name||!email||!pw){document.getElementById('user-err').textContent='이름, 이메일, 비밀번호를 입력하세요.';return;}
+  document.getElementById('user-err').textContent='처리 중...';
+  try {
+    // Create auth user via secondary app
+    const sec = firebase.initializeApp(firebase.app().options,'secondary-'+Date.now());
+    const secAuth = sec.auth();
+    const cred = await secAuth.createUserWithEmailAndPassword(email, pw);
+    await fdb.collection('pm_users').doc(cred.user.uid).set({
+      name, email, role, org, site:site||'', createdAt:FV.serverTimestamp()
+    });
+    await secAuth.signOut();
+    await sec.delete();
+    closeModal('modal-user');
+    toast('사용자 추가 완료','success');
+    loadUsers();
+  } catch(e) {
+    document.getElementById('user-err').textContent = e.message;
+  }
+}
+
+async function deleteUser(uid, email) {
+  if (!confirm(`${email} 사용자를 삭제하시겠습니까? (Auth 계정은 Firebase Console에서 별도 삭제 필요)`)) return;
+  await fdb.collection('pm_users').doc(uid).delete();
+  toast('사용자 정보 삭제 완료 (Auth는 Console에서 삭제)','info');
+  loadUsers();
+}
+
+// ============ SPONSOR VIEW ============
+async function renderSponsorView(pid) {
+  document.getElementById('loading').style.display='none';
+  document.getElementById('sponsor-view').style.display='block';
+  if (!pid) { document.getElementById('sponsor-content').innerHTML='<div style="color:var(--text3);">잘못된 링크입니다.</div>'; return; }
+  const [pSnap, msSnap, sSnap] = await Promise.all([
+    fdb.collection('pm_projects').doc(pid).get(),
+    fdb.collection('pm_milestones').where('projectId','==',pid).get(),
+    fdb.collection('pm_sites').where('projectId','==',pid).get()
+  ]);
+  if (!pSnap.exists) { document.getElementById('sponsor-content').innerHTML='<div style="color:var(--text3);">프로젝트를 찾을 수 없습니다.</div>'; return; }
+  const p = {id:pSnap.id,...pSnap.data()};
+  const ms = msSnap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const sites = sSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const enrolled = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
+  const screened = sites.reduce((s,x)=>s+(parseInt(x.screened)||0),0);
+  const dropout = sites.reduce((s,x)=>s+(parseInt(x.dropout)||0),0);
+  const ae = sites.reduce((s,x)=>s+(parseInt(x.ae)||0),0);
+  const n = parseInt(p.n)||0;
+  const pct = n ? Math.min(Math.round(enrolled/n*100),100) : 0;
+  const statusMap = {ongoing:'Ongoing',planning:'Planning',completed:'Completed',onhold:'On Hold'};
+
+  document.getElementById('sponsor-content').innerHTML = `
+    <div class="sponsor-proj-title">${p.title}</div>
+    <div class="sponsor-proj-code">${p.code} · ${p.phase||''} · ${statusMap[p.status]||p.status}</div>
+    <div class="sponsor-stats">
+      ${[['스크리닝',screened,'var(--text)'],['등록',enrolled,'var(--accent)'],['탈락',dropout,'var(--red)'],['AE 건수',ae,'var(--yellow)']].map(([l,v,c])=>`
+        <div class="sponsor-stat"><div class="val" style="color:${c}">${v}</div><div class="lbl">${l}</div></div>
+      `).join('')}
+    </div>
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title">등록 현황</div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;">
+        <span style="color:var(--text2);">목표 ${n}명 대비</span>
+        <span style="font-weight:700;color:var(--accent);">${pct}% (${enrolled}명)</span>
+      </div>
+      <div class="prog-bar" style="height:10px;"><div class="prog-fill ${pct>=100?'green':'blue'}" style="width:${pct}%"></div></div>
+      ${sites.length ? `<div style="margin-top:16px;">
+        ${sites.map(s=>`<div class="enroll-bar">
+          <div class="enroll-label" title="${s.name}">${s.name}</div>
+          <div class="enroll-track"><div class="enroll-fill ${(parseInt(s.enrolled)||0)>=(parseInt(s.n)||999)?'full':''}" style="width:${s.n?Math.min(Math.round((parseInt(s.enrolled)||0)/parseInt(s.n)*100),100):0}%"></div></div>
+          <div style="font-size:11px;color:var(--text2);width:50px;text-align:right;">${s.enrolled||0}/${s.n||'?'}</div>
+        </div>`).join('')}
+      </div>` : ''}
+    </div>
+    <div class="card">
+      <div class="card-title">마일스톤 현황</div>
+      <div class="timeline">
+        ${ms.map(m=>tlItemReadonly(m)).join('')}
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px;color:var(--text3);font-size:11px;">
+      📄 InnoBioLab CRO · ${new Date().toLocaleDateString('ko-KR')} 기준 · 문의: clinical@innobiolab.co.kr
+    </div>`;
+}
+
+function tlItemReadonly(m) {
+  if (m.disabled) return ''; // Skip disabled milestones in sponsor view
+  const icon = {done:'✅',active:'🔵',late:'🔴',pending:'⬜'}[m.status]||'⬜';
+  const dotClass = {done:'done',active:'active',late:'late',pending:'pending'}[m.status]||'pending';
+  return `<div class="timeline-item">
+    <div class="tl-line"></div>
+    <div class="tl-dot ${dotClass}">${icon}</div>
+    <div class="tl-content">
+      <div class="tl-title">${m.name}</div>
+      <div class="tl-date">Planned: ${m.date}${m.actual?' · Completed: '+m.actual:''}</div>
+      ${m.note?`<div class="tl-note">${m.note}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function copyShareLink(pid) {
+  const id = pid || CUR_PROJECT_ID;
+  if (!id) return;
+  const url = `${location.origin}${location.pathname}?view=sponsor&pid=${id}`;
+  navigator.clipboard.writeText(url).then(()=>toast('의뢰사 링크가 복사되었습니다','success'));
+}
+
+// ============ INVESTIGATOR VIEW ============
+async function renderInvView() {
+  document.getElementById('auth').style.display='none';
+  document.getElementById('inv-view').style.display='block';
+  document.getElementById('inv-site-info').textContent = `안녕하세요, ${CUR_USER.name}님 (${CUR_USER.org||CUR_USER.site||''})`;
+  // Load projects
+  const snap = await fdb.collection('pm_projects').where('status','in',['ongoing','planning']).get();
+  PROJECTS = snap.docs.map(d=>({id:d.id,...d.data()}));
+  const sel = document.getElementById('inv-project-sel');
+  sel.innerHTML = '<option value="">— 선택 —</option>';
+  PROJECTS.forEach(p => sel.innerHTML += `<option value="${p.id}">${p.code} · ${p.title}</option>`);
+}
+
+async function loadInvSites() {
+  const pid = document.getElementById('inv-project-sel').value;
+  if (!pid) { document.getElementById('inv-sites-content').innerHTML=''; return; }
+  INV_PROJECT_ID = pid;
+  const snap = await fdb.collection('pm_sites').where('projectId','==',pid).get();
+  SITES = snap.docs.map(d=>({id:d.id,...d.data()}));
+
+  // Investigator sees all sites (or only their own based on site name)
+  const mySites = CUR_USER.site
+    ? SITES.filter(s=>s.name===CUR_USER.site||s.pi===CUR_USER.name)
+    : SITES;
+
+  document.getElementById('inv-sites-content').innerHTML = mySites.length
+    ? mySites.map(s=>invSiteCard(s)).join('')
+    : '<div style="color:var(--text3);">배정된 사이트가 없습니다.</div>';
+}
+
+function invSiteCard(s) {
+  const visits = parseInt(s.visits)||3;
+  const visitData = s.visitData||{};
+  return `<div class="site-update-card">
+    <div class="site-update-header">
+      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · 목표 ${s.n||'?'}명</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">대상자 현황을 입력해주세요. 저장은 자동으로 됩니다.</div>
+    <div class="inp-row">
+      ${['screened','enrolled','dropout','ae'].map((f,i)=>{
+        const labels=['스크리닝','등록','탈락','AE'];
+        return `<div class="inp-box"><label>${labels[i]}</label><input type="number" min="0" value="${s[f]||0}" onchange="updateSiteField('${s.id}','${f}',this.value)"></div>`;
+      }).join('')}
+    </div>
+    <div style="margin-top:14px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">방문 완료 체크</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${Array.from({length:visits},(_,i)=>i+1).map(v=>`
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;background:var(--bg3);padding:6px 10px;border-radius:6px;font-size:13px;border:1px solid ${visitData['v'+v]==='done'?'var(--green)':'var(--border)'};transition:all 0.15s;">
+            <input type="checkbox" onchange="updateVisit('${s.id}','v${v}',this.checked)" ${visitData['v'+v]==='done'?'checked':''} style="width:auto;">
+            <span style="color:${visitData['v'+v]==='done'?'var(--green)':'var(--text2)'};">Visit ${v}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============ HELPERS ============
+function msBadge(status) {
+  const map = {done:['badge-green','완료'],active:['badge-blue','진행중'],late:['badge-red','지연'],pending:['badge-gray','예정']};
+  const [cls,label] = map[status]||['badge-gray','예정'];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function roleLabel(r) {
+  return {admin:'Admin',inv:'Investigator',sponsor:'Sponsor'}[r]||r;
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function toast(msg, type='info') {
+  const el=document.createElement('div');
+  el.className=`toast-item ${type}`;
+  el.textContent=msg;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+// Enter key login
+document.getElementById('login-pw').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+</script>
+</body>
+</html>
