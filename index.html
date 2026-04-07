@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IBL Clinical PM</title>
+<title>IBL Clinical PM | InnoBioLab</title>
 <script src="https://unpkg.com/firebase@8.10.1/firebase-app.js"></script>
 <script src="https://unpkg.com/firebase@8.10.1/firebase-auth.js"></script>
 <script src="https://unpkg.com/firebase@8.10.1/firebase-firestore.js"></script>
@@ -240,7 +240,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 <div id="auth">
   <div class="auth-box">
     <div class="auth-logo">
-      <div class="logo-icon">🧪</div>
+      <div class="logo-icon" style="background:white;padding:2px;"><img src="data:image/png;base64,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" style="width:100%;height:100%;object-fit:contain;"></div>
       <div><div class="logo-text">IBL Clinical PM</div><div class="logo-sub">InnoBioLab · Project Management</div></div>
     </div>
     <div class="auth-title">로그인</div>
@@ -266,7 +266,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   <div class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-row">
-        <div class="icon">🧪</div>
+        <img src="data:image/png;base64,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" style="width:36px;height:36px;object-fit:contain;border-radius:4px;">
         <div><div class="name">IBL Clinical PM</div><div class="sub">InnoBioLab</div></div>
       </div>
     </div>
@@ -296,7 +296,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
       <div class="page-header">
-        <div><div class="page-title">대시보드</div><div class="page-sub">전체 임상시험 프로젝트 현황</div></div>
+        <div><div class="page-title" id="pt-dashboard">대시보드</div><div class="page-sub" id="ps-dashboard">전체 임상시험 프로젝트 현황</div></div>
         <button class="btn btn-primary" onclick="openProjectModal()" id="btn-add-project">+ 프로젝트 추가</button>
       </div>
       <div class="stats-grid" id="dash-stats">
@@ -307,16 +307,16 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="card-title">진행중 프로젝트</div>
+          <div class="card-title" id="lbl-ongoing-projects">진행중 프로젝트</div>
           <div id="dash-projects-list"></div>
         </div>
         <div class="card">
-          <div class="card-title">모집 현황 요약</div>
+          <div class="card-title" id="lbl-enroll-summary">모집 현황 요약</div>
           <div id="dash-enroll-chart"></div>
         </div>
       </div>
       <div style="margin-top:20px;" class="card">
-        <div class="card-title">임박한 마일스톤 (30일 이내)</div>
+        <div class="card-title" id="lbl-upcoming-ms">임박한 마일스톤 (30일 이내)</div>
         <div id="dash-milestones"></div>
       </div>
     </div>
@@ -324,15 +324,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <!-- PROJECTS -->
     <div class="page" id="page-projects">
       <div class="page-header">
-        <div><div class="page-title">프로젝트 목록</div><div class="page-sub">전체 임상시험 프로젝트 관리</div></div>
+        <div><div class="page-title" id="pt-projects">프로젝트 목록</div><div class="page-sub" id="ps-projects">전체 임상시험 프로젝트 관리</div></div>
         <button class="btn btn-primary" onclick="openProjectModal()" id="btn-add-project2">+ 프로젝트 추가</button>
       </div>
-      <div class="tabs">
-        <div class="tab active" onclick="filterProjects('all', this)">전체</div>
-        <div class="tab" onclick="filterProjects('ongoing', this)">진행중</div>
-        <div class="tab" onclick="filterProjects('planning', this)">준비중</div>
-        <div class="tab" onclick="filterProjects('completed', this)">완료</div>
-        <div class="tab" onclick="filterProjects('onhold', this)">보류</div>
+      <div class="tabs" id="proj-tabs">
+        <div class="tab active" onclick="filterProjects('all', this)" id="tab-all">전체</div>
+        <div class="tab" onclick="filterProjects('ongoing', this)" id="tab-ongoing">진행중</div>
+        <div class="tab" onclick="filterProjects('planning', this)" id="tab-planning">준비중</div>
+        <div class="tab" onclick="filterProjects('completed', this)" id="tab-completed">완료</div>
+        <div class="tab" onclick="filterProjects('onhold', this)" id="tab-onhold">보류</div>
       </div>
       <div class="proj-grid" id="projects-grid"></div>
     </div>
@@ -340,7 +340,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <!-- TIMELINE -->
     <div class="page" id="page-timeline">
       <div class="page-header">
-        <div><div class="page-title">마일스톤 타임라인</div><div class="page-sub">프로젝트별 주요 일정 관리</div></div>
+        <div><div class="page-title" id="pt-timeline">마일스톤 타임라인</div><div class="page-sub" id="ps-timeline">프로젝트별 주요 일정 관리</div></div>
       </div>
       <div class="form-group" style="max-width:280px;margin-bottom:20px;">
         <select id="tl-project-sel" onchange="loadTimeline()">
@@ -353,8 +353,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <!-- ENROLLMENT -->
     <div class="page" id="page-enrollment">
       <div class="page-header">
-        <div><div class="page-title">대상자 모집 현황</div><div class="page-sub">사이트별 스크리닝·등록·탈락·방문·AE 현황</div></div>
-        <button class="btn btn-secondary btn-sm" onclick="openSiteModal()">+ 사이트 추가</button>
+        <div><div class="page-title" id="pt-enrollment">대상자 모집 현황</div><div class="page-sub" id="ps-enrollment">사이트별 스크리닝·등록·중도탈락·방문·AE 현황</div></div>
+        <button class="btn btn-secondary btn-sm" onclick="openSiteModal()" id="btn-add-site">+ 사이트 추가</button>
       </div>
       <div class="form-group" style="max-width:280px;margin-bottom:20px;">
         <select id="enroll-project-sel" onchange="loadEnrollment()">
@@ -415,7 +415,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           </select>
         </div>
       </div>
-      <div class="form-group"><label>프로젝트명 (시험약명/적응증) *</label><input id="proj-title" placeholder="OOO 정 생동성시험"></div>
+      <div class="form-group"><label>프로젝트명 (한글) *</label><input id="proj-title" placeholder="OOO 정 생동성시험"></div>
+      <div class="form-group"><label>Project Title (English)</label><input id="proj-title-en" placeholder="A Randomized, Single-dose, 2-Treatment..."></div>
       <div class="grid-2">
         <div class="form-group"><label>의뢰사 *</label><input id="proj-sponsor" placeholder="(주)제약사"></div>
         <div class="form-group"><label>책임연구자 (PI)</label><input id="proj-pi" placeholder="홍길동"></div>
@@ -432,7 +433,13 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         <div class="form-group"><label>시작일</label><input id="proj-start" type="date"></div>
         <div class="form-group"><label>종료 예정일</label><input id="proj-end" type="date"></div>
       </div>
-      <div class="form-group"><label>비고</label><textarea id="proj-memo" placeholder="시험 개요, 특이사항 등"></textarea></div>
+      <div class="form-group"><label>비고 / Notes</label><textarea id="proj-memo" placeholder="시험 개요, 특이사항 등"></textarea></div>
+      <div style="background:var(--bg3);border-radius:8px;padding:14px;margin-top:4px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;">📅 방문 일정 설정 (Visit Schedule)</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">쉼표로 구분하여 입력 / Comma-separated (예: SCR, P1-V1, P1-V2, P2-V1, P2-V2, FU)</div>
+        <input id="proj-visit-schedule" placeholder="SCR, P1-V1, P1-V2, P2-V1, P2-V2" style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-family:inherit;font-size:13px;outline:none;">
+        <div style="font-size:11px;color:var(--text3);margin-top:6px;">비워두면 기본값(V1, V2, V3) 사용</div>
+      </div>
       <div style="background:var(--bg3);border-radius:8px;padding:14px;margin-top:4px;">
         <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;">⚡ 마일스톤 템플릿 자동 생성</div>
         <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;">
@@ -460,9 +467,37 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       <input type="hidden" id="ms-project-id">
       <div class="form-group"><label>마일스톤명 *</label><input id="ms-name" placeholder="예: IRB 승인"></div>
       <div class="grid-2">
-        <div class="form-group"><label>예정일 *</label><input id="ms-date" type="date"></div>
-        <div class="form-group"><label>실제 완료일</label><input id="ms-actual" type="date"></div>
+        <div class="form-group"><label>카테고리 / Category</label>
+          <select id="ms-category" onchange="handleMsCatChange(this)">
+            <option value="">-- 선택 --</option>
+            <option value="계약·준비">계약·준비 / Contract & Prep</option>
+            <option value="IRB">IRB</option>
+            <option value="MFDS">규제기관허가 (MFDS)</option>
+            <option value="문서 준비">문서 준비 / Document Prep</option>
+            <option value="계획서">계획서 / Protocol</option>
+            <option value="SIV">SIV</option>
+            <option value="스크리닝">스크리닝 / Screening</option>
+            <option value="임상 진행">임상 진행 / Clinical Conduct</option>
+            <option value="검체 분석">검체 분석 / Sample Analysis</option>
+            <option value="COV">COV</option>
+            <option value="DB Lock">DB Lock</option>
+            <option value="통계 분석">통계 분석 / Statistics</option>
+            <option value="CSR">CSR</option>
+            <option value="TMF">TMF</option>
+            <option value="General">기타 / General</option>
+            <option value="__custom__">직접 입력...</option>
+          </select>
+        </div>
+        <div class="form-group" id="ms-cat-custom-group" style="display:none;">
+          <label>카테고리 직접 입력</label>
+          <input id="ms-category-custom" placeholder="새 카테고리명">
+        </div>
       </div>
+      <div class="grid-2">
+        <div class="form-group"><label>예정일 *</label><input id="ms-date" type="date" onchange="calcMsWorkingDays()"></div>
+        <div class="form-group"><label>실제 완료일</label><input id="ms-actual" type="date" onchange="calcMsWorkingDays()"></div>
+      </div>
+      <div style="background:var(--bg3);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--text2);margin-bottom:4px;" id="ms-workdays-info"></div>
       <div class="form-group"><label>상태</label>
         <select id="ms-status">
           <option value="pending">예정</option><option value="active">진행중</option><option value="done">완료</option><option value="late">지연</option>
@@ -544,7 +579,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         <div style="font-size:12px;color:var(--text2);margin-top:2px;" id="detail-code">-</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn-secondary btn-sm" onclick="copyShareLink()" id="btn-share-link">🔗 의뢰사 링크</button>
+        <button class="btn btn-secondary btn-sm" onclick="copyShareLink()" id="btn-share-link">🔗 Sponsor Link</button>
         <button class="modal-close" onclick="closeModal('modal-proj-detail')">×</button>
       </div>
     </div>
@@ -629,6 +664,30 @@ function toggleLang() {
   const btn2 = document.getElementById('btn-add-project2');
   if (btn1) btn1.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
   if (btn2) btn2.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
+  // Page titles
+  const ptP = document.getElementById('pt-projects'); if(ptP) ptP.textContent = LANG==='ko'?'프로젝트 목록':'Projects';
+  const psP = document.getElementById('ps-projects'); if(psP) psP.textContent = LANG==='ko'?'전체 임상시험 프로젝트 관리':'Manage All Clinical Trial Projects';
+  const ptT = document.getElementById('pt-timeline'); if(ptT) ptT.textContent = LANG==='ko'?'마일스톤 타임라인':'Milestone Timeline';
+  const psT = document.getElementById('ps-timeline'); if(psT) psT.textContent = LANG==='ko'?'프로젝트별 주요 일정 관리':'Project Schedule Management';
+  const ptE = document.getElementById('pt-enrollment'); if(ptE) ptE.textContent = LANG==='ko'?'대상자 모집 현황':'Enrollment Status';
+  const psE = document.getElementById('ps-enrollment'); if(psE) psE.textContent = LANG==='ko'?'사이트별 스크리닝·등록·중도탈락·방문·AE 현황':'Screening · Scr.Fail · Enrollment · Dropout · Visit · AE by Site';
+  const btnSite = document.getElementById('btn-add-site'); if(btnSite) btnSite.textContent = LANG==='ko'?'+ 사이트 추가':'+ Add Site';
+  // Project filter tabs
+  const tabLabels = LANG==='ko'
+    ? {all:'전체', ongoing:'진행중', planning:'준비중', completed:'완료', onhold:'보류'}
+    : {all:'All', ongoing:'Ongoing', planning:'Planning', completed:'Completed', onhold:'On Hold'};
+  Object.entries(tabLabels).forEach(([k,v]) => {
+    const el = document.getElementById('tab-'+k); if(el) el.textContent = v;
+  });
+  // Re-populate project selects with correct language
+  populateProjectSelects();
+  // Re-render active page content
+  const ap = document.querySelector('.page.active');
+  if (ap) {
+    const apid = ap.id.replace('page-','');
+    if (apid==='projects') renderProjectsGrid();
+    else if (apid==='enrollment') loadEnrollment();
+  }
 }
 
 // ============ AUTH ============
@@ -720,13 +779,15 @@ async function loadAllData() {
 
 function populateProjectSelects() {
   const sels = ['tl-project-sel','enroll-project-sel','inv-project-sel','site-project-sel'];
+  const placeholder = LANG==='ko' ? '— 프로젝트 선택 —' : '— Select Project —';
   sels.forEach(sid => {
     const el = document.getElementById(sid);
     if (!el) return;
     const cur = el.value;
-    el.innerHTML = '<option value="">— 프로젝트 선택 —</option>';
+    el.innerHTML = `<option value="">${placeholder}</option>`;
     PROJECTS.forEach(p => {
-      el.innerHTML += `<option value="${p.id}">${p.code} · ${p.title}</option>`;
+      const label = (LANG==='en' && p.titleEn) ? p.titleEn : p.title;
+      el.innerHTML += `<option value="${p.id}">${p.code} · ${label}</option>`;
     });
     if (cur) el.value = cur;
   });
@@ -747,6 +808,9 @@ function renderDashboard() {
   const lblOngoing = document.getElementById('lbl-ongoing'); if(lblOngoing) lblOngoing.textContent = T('ongoing');
   const lblCompleted = document.getElementById('lbl-completed'); if(lblCompleted) lblCompleted.textContent = T('completed');
   const lblEnrolled = document.getElementById('lbl-enrolled'); if(lblEnrolled) lblEnrolled.textContent = T('totalEnrolled');
+  const lblOP = document.getElementById('lbl-ongoing-projects'); if(lblOP) lblOP.textContent = LANG==='ko'?'진행중 프로젝트':'Ongoing Projects';
+  const lblES = document.getElementById('lbl-enroll-summary'); if(lblES) lblES.textContent = LANG==='ko'?'모집 현황 요약':'Enrollment Summary';
+  const lblUMS = document.getElementById('lbl-upcoming-ms'); if(lblUMS) lblUMS.textContent = LANG==='ko'?'임박한 마일스톤 (30일 이내)':'Upcoming Milestones (30 days)';
 
   // Ongoing projects list
   const ongoingList = PROJECTS.filter(p=>p.status==='ongoing').slice(0,5);
@@ -757,14 +821,14 @@ function renderDashboard() {
         const pct = p.n ? Math.round(enrolled/p.n*100) : 0;
         return `<div style="margin-bottom:14px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <div style="font-size:13px;font-weight:600;">${p.title}</div>
-            <div style="font-size:11px;color:var(--text2);">${enrolled}/${p.n||'?'}명</div>
+            <div style="font-size:13px;font-weight:600;">${(LANG==='en'&&p.titleEn)?p.titleEn:p.title}</div>
+            <div style="font-size:11px;color:var(--text2);">${enrolled}/${p.n||'?'}${LANG==='ko'?'명':''}</div>
           </div>
           <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">${p.code} · ${p.sponsor||''}</div>
           <div class="prog-bar"><div class="prog-fill ${pct>=100?'green':'blue'}" style="width:${Math.min(pct,100)}%"></div></div>
         </div>`;
       }).join('')
-    : '<div style="color:var(--text3);font-size:13px;padding:10px 0;">진행중인 프로젝트 없음</div>';
+    : `<div style="color:var(--text3);font-size:13px;padding:10px 0;">${LANG==='ko'?'진행중인 프로젝트 없음':'No ongoing projects'}</div>`;
 
   // Enrollment chart
   const withEnroll = PROJECTS.filter(p=>p.status==='ongoing').slice(0,6);
@@ -775,7 +839,7 @@ function renderDashboard() {
         const n = parseInt(p.n)||1;
         const pct = Math.min(Math.round(enrolled/n*100),100);
         return `<div class="enroll-bar">
-          <div class="enroll-label" title="${p.code}">${p.code}</div>
+          <div class="enroll-label" title="${(LANG==='en'&&p.titleEn)?p.titleEn:p.code}">${p.code}</div>
           <div class="enroll-track"><div class="enroll-fill ${pct>=100?'full':''}" style="width:${pct}%"></div></div>
           <div class="enroll-num" style="width:50px;text-align:right;font-size:12px;color:var(--text2);">${enrolled}/${n}</div>
         </div>`;
@@ -792,9 +856,14 @@ function renderDashboard() {
     return d >= today && d <= d30;
   }).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,6);
 
+  // Update page title/subtitle
+  const ptDash = document.getElementById('pt-dashboard'); if(ptDash) ptDash.textContent = LANG==='ko'?'대시보드':'Dashboard';
+  const psDash = document.getElementById('ps-dashboard'); if(psDash) psDash.textContent = LANG==='ko'?'전체 임상시험 프로젝트 현황':'Clinical Trial Project Overview';
+  const btnAdd = document.getElementById('btn-add-project'); if(btnAdd) btnAdd.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
+  const btnAdd2 = document.getElementById('btn-add-project2'); if(btnAdd2) btnAdd2.textContent = LANG==='ko'?'+ 프로젝트 추가':'+ Add Project';
   document.getElementById('dash-milestones').innerHTML = upcoming.length
     ? `<div class="table-wrap"><table>
-        <thead><tr><th>프로젝트</th><th>마일스톤</th><th>예정일</th><th>상태</th><th>D-</th></tr></thead>
+        <thead><tr><th>${LANG==='ko'?'프로젝트':'Project'}</th><th>${LANG==='ko'?'마일스톤':'Milestone'}</th><th>${LANG==='ko'?'예정일':'Planned'}</th><th>${LANG==='ko'?'상태':'Status'}</th><th>D-</th></tr></thead>
         <tbody>${upcoming.map(m => {
           const p = PROJECTS.find(x=>x.id===m.projectId);
           const diff = Math.ceil((new Date(m.date)-today)/(1000*60*60*24));
@@ -807,7 +876,7 @@ function renderDashboard() {
           </tr>`;
         }).join('')}</tbody>
       </table></div>`
-    : '<div style="color:var(--text3);font-size:13px;padding:10px 0;">30일 이내 임박한 마일스톤 없음</div>';
+    : `<div style="color:var(--text3);font-size:13px;padding:10px 0;">${LANG==='ko'?'30일 이내 임박한 마일스톤 없음':'No upcoming milestones within 30 days'}</div>`;
 }
 
 // ============ PROJECTS PAGE ============
@@ -835,7 +904,7 @@ function renderProjectsGrid() {
   let list = PROJ_FILTER==='all' ? PROJECTS : PROJECTS.filter(p=>p.status===PROJ_FILTER);
   document.getElementById('projects-grid').innerHTML = list.length
     ? list.map(p => projCard(p)).join('')
-    : '<div style="color:var(--text3);padding:20px;">프로젝트 없음</div>';
+    : `<div style="color:var(--text3);padding:20px;">${LANG==='ko'?'프로젝트 없음':'No projects found'}</div>`;
 }
 
 function projCard(p) {
@@ -850,16 +919,16 @@ function projCard(p) {
       <span class="proj-code">${p.code}</span>
       <span class="badge ${badgeMap[p.status]||'badge-gray'}">${statusMap[p.status]||p.status}</span>
     </div>
-    <div class="proj-title">${p.title}</div>
+    <div class="proj-title">${(LANG==='en'&&p.titleEn)?p.titleEn:p.title}</div>
     <div class="proj-sponsor">📋 ${p.sponsor||'의뢰사 미입력'} &nbsp;·&nbsp; 🏥 ${p.pi||'PI 미입력'}</div>
     <div class="proj-meta">
-      <div class="proj-meta-item">단계: <span>${p.phase||'-'}</span></div>
-      <div class="proj-meta-item">사이트: <span>${sites.length}개</span></div>
-      ${p.end ? `<div class="proj-meta-item">종료예정: <span>${p.end}</span></div>` : ''}
+      <div class="proj-meta-item">${LANG==='ko'?'단계':'Phase'}: <span>${p.phase||'-'}</span></div>
+      <div class="proj-meta-item">${LANG==='ko'?'사이트':'Sites'}: <span>${sites.length}${LANG==='ko'?'개':''}</span></div>
+      ${p.end ? `<div class="proj-meta-item">${LANG==='ko'?'종료예정':'End Date'}: <span>${p.end}</span></div>` : ''}
     </div>
     <div class="proj-progress">
       <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;">
-        <span>대상자 등록</span><span>${enrolled}/${n||'?'}명 (${pct}%)</span>
+        <span>${LANG==='ko'?'대상자 등록':'Enrollment'}</span><span>${enrolled}/${n||'?'}${LANG==='ko'?'명':''} (${pct}%)</span>
       </div>
       <div class="prog-bar"><div class="prog-fill ${pct>=100?'green':'blue'}" style="width:${Math.min(pct,100)}%"></div></div>
     </div>
@@ -881,43 +950,55 @@ async function openProjDetail(pid) {
   const screened = sites.reduce((s,x)=>s+(parseInt(x.screened)||0),0);
   const dropout = sites.reduce((s,x)=>s+(parseInt(x.dropout)||0),0);
   const ae = sites.reduce((s,x)=>s+(parseInt(x.ae)||0),0);
+  const completed = sites.reduce((s,x)=>s+(parseInt(x.completed)||0),0);
+  const scrdrp = sites.reduce((s,x)=>s+(parseInt(x.scrDropout)||0),0);
   const n = parseInt(p.n)||0;
+
+  const ko = LANG==='ko';
+  const titleDisplay = (LANG==='en' && p.titleEn) ? p.titleEn : p.title;
+  document.getElementById('detail-title').textContent = titleDisplay;
 
   document.getElementById('detail-body').innerHTML = `
     <div class="grid-2" style="margin-bottom:20px;">
       <div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">📊 모집 현황</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          ${statBox('스크리닝',screened,'var(--text)')}
-          ${statBox('등록',enrolled,'var(--accent)')}
-          ${statBox('탈락',dropout,'var(--red)')}
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">📊 ${ko?'모집 현황':'Enrollment Status'}</div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;">
+          ${statBox(ko?'스크리닝':'Screening',screened,'var(--text)')}
+          ${statBox(ko?'스크리닝 탈락':'Scr. Fail',scrdrp,'var(--orange)')}
+          ${statBox(ko?'등록':'Enrolled',enrolled,'var(--accent)')}
+          ${statBox(ko?'시험완료':'Completed',completed,'var(--green)')}
+          ${statBox(ko?'중도탈락':'Dropout',dropout,'var(--red)')}
           ${statBox('AE',ae,'var(--yellow)')}
         </div>
         <div class="prog-bar" style="margin-top:12px;height:6px;"><div class="prog-fill ${enrolled>=n?'green':'blue'}" style="width:${n?Math.min(Math.round(enrolled/n*100),100):0}%"></div></div>
-        <div style="font-size:11px;color:var(--text3);margin-top:4px;">목표 ${n}명 대비 ${n?Math.round(enrolled/n*100):0}% 등록</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">${ko?`목표 ${n}명 대비 ${n?Math.round(enrolled/n*100):0}% 등록`:`${n?Math.round(enrolled/n*100):0}% enrolled vs. Target ${n}`}</div>
       </div>
       <div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">📋 프로젝트 정보</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="font-size:12px;color:var(--text2);">📋 ${ko?'프로젝트 정보':'Project Info'}</div>
+          ${CUR_USER.role==='admin'?`<button class="btn btn-secondary btn-sm" onclick="closeModal('modal-proj-detail');openProjectModal('${pid}')">${ko?'✏️ 수정':'✏️ Edit'}</button>`:''}
+        </div>
         <div style="font-size:13px;line-height:1.8;">
           <div><span style="color:var(--text3);">PI: </span>${p.pi||'-'}</div>
-          <div><span style="color:var(--text3);">시작: </span>${p.start||'-'}</div>
-          <div><span style="color:var(--text3);">종료예정: </span>${p.end||'-'}</div>
+          <div><span style="color:var(--text3);">${ko?'시작':'Start'}: </span>${p.start||'-'}</div>
+          <div><span style="color:var(--text3);">${ko?'종료예정':'End'}: </span>${p.end||'-'}</div>
+          ${p.visitSchedule?.length?`<div><span style="color:var(--text3);">${ko?'방문 일정':'Visits'}: </span><span style="font-family:'DM Mono';font-size:11px;">${p.visitSchedule.join(' · ')}</span></div>`:''}
           ${p.memo ? `<div style="margin-top:8px;font-size:12px;color:var(--text2);">${p.memo}</div>` : ''}
         </div>
       </div>
     </div>
     <div style="margin-bottom:20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div style="font-size:12px;font-weight:600;color:var(--text2);">📅 마일스톤</div>
-        ${CUR_USER.role==='admin'?`<button class="btn btn-secondary btn-sm" onclick="openMilestoneModal(null,'${pid}')">+ 추가</button>`:''}
+        <div style="font-size:12px;font-weight:600;color:var(--text2);">📅 ${ko?'마일스톤':'Milestones'}</div>
+        ${CUR_USER.role==='admin'?`<button class="btn btn-secondary btn-sm" onclick="openMilestoneModal(null,'${pid}')">+ ${ko?'추가':'Add'}</button>`:''}
       </div>
       <div class="timeline" id="detail-timeline">
-        ${msList.length ? msList.map(m => tlItem(m, pid)).join('') : '<div style="color:var(--text3);font-size:13px;">마일스톤 없음</div>'}
+        ${msList.length ? msList.map(m => tlItem(m, pid)).join('') : `<div style="color:var(--text3);font-size:13px;">${ko?'마일스톤 없음':'No milestones'}</div>`}
       </div>
     </div>
     <div>
-      <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px;">🏥 사이트별 현황</div>
-      ${sites.length ? sites.map(s => siteRow(s)).join('') : '<div style="color:var(--text3);font-size:13px;">등록된 사이트 없음</div>'}
+      <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px;">🏥 ${ko?'사이트별 현황':'Site Status'}</div>
+      ${sites.length ? sites.map(s => siteRow(s, p)).join('') : `<div style="color:var(--text3);font-size:13px;">${ko?'등록된 사이트 없음':'No sites registered'}</div>`}
     </div>
   `;
   document.getElementById('modal-proj-detail').classList.add('open');
@@ -936,7 +1017,7 @@ function tlItem(m, pid) {
   const icon = isDisabled ? '➖' : ({done:'✅',active:'🔵',late:'🔴',pending:'⬜'}[m.status]||'⬜');
   const isAdmin = CUR_USER?.role==='admin';
   const editBtn = isAdmin ? `<span style="font-size:11px;color:var(--accent);cursor:pointer;margin-left:8px;" onclick="openMilestoneModal('${m.id}','${pid}')">[${LANG==='ko'?'수정':'Edit'}]</span>` : '';
-  const disableBtn = isAdmin ? `<span style="font-size:11px;cursor:pointer;margin-left:6px;padding:1px 6px;border-radius:4px;border:1px solid ${isDisabled?'var(--green)':'var(--border)'};color:${isDisabled?'var(--green)':'var(--text3)'};" onclick="toggleMilestoneDisabled('${m.id}','${pid}',${isDisabled})">${isDisabled?(LANG==='ko'?'활성화':'Enable'):(LANG==='ko'?'비활성화':'Disable')}</span>` : '';
+  const disableBtn = isAdmin ? `<span style="font-size:11px;cursor:pointer;margin-left:6px;padding:1px 6px;border-radius:4px;border:1px solid ${isDisabled?'var(--green)':'var(--border)'};color:${isDisabled?'var(--green)':'var(--text3)'};" onclick="toggleMilestoneDisabled('${m.id}','${pid}',${isDisabled})">${isDisabled?(LANG==='ko'?'↩ 활성화':'↩ Enable'):(LANG==='ko'?'숨기기':'Hide')}</span>` : '';
   return `<div class="timeline-item" style="${isDisabled?'opacity:0.4;':''}">
     <div class="tl-line"></div>
     <div class="tl-dot ${dotClass}">${icon}</div>
@@ -950,43 +1031,365 @@ function tlItem(m, pid) {
   </div>`;
 }
 
-function siteRow(s) {
-  const visits = parseInt(s.visits)||3;
+function siteRow(s, p) {
+  const ko = LANG==='ko';
   const visitData = s.visitData || {};
-  const completedVisits = Object.values(visitData).filter(v=>v==='done').length;
+  // Use project visitSchedule if exists, else fallback to count
+  const proj = p || PROJECTS.find(x=>x.id===s.projectId);
+  const visitLabels = (proj?.visitSchedule?.length) ? proj.visitSchedule : Array.from({length:parseInt(s.visits)||3},(_,i)=>`V${i+1}`);
   return `<div class="site-update-card">
     <div class="site-update-header">
       <div><div class="site-name">${s.name}</div><div class="site-country" style="font-size:11px;color:var(--text2);">${s.country||''} · PI: ${s.pi||'-'}</div></div>
-      <div style="font-size:12px;color:var(--text2);">목표 ${s.n||'?'}명</div>
+      <div style="font-size:12px;color:var(--text2);">${ko?'목표':'Target'} ${s.n||'?'}${ko?'명':''}</div>
     </div>
     <div class="inp-row">
-      <div class="inp-box"><label>스크리닝</label><div style="font-size:20px;font-weight:700;color:var(--text);text-align:center;">${s.screened||0}</div></div>
-      <div class="inp-box"><label>등록</label><div style="font-size:20px;font-weight:700;color:var(--accent);text-align:center;">${s.enrolled||0}</div></div>
-      <div class="inp-box"><label>탈락</label><div style="font-size:20px;font-weight:700;color:var(--red);text-align:center;">${s.dropout||0}</div></div>
+      <div class="inp-box"><label>${ko?'스크리닝':'Screening'}</label><div style="font-size:20px;font-weight:700;color:var(--text);text-align:center;">${s.screened||0}</div></div>
+      <div class="inp-box"><label>${ko?'등록':'Enrolled'}</label><div style="font-size:20px;font-weight:700;color:var(--accent);text-align:center;">${s.enrolled||0}</div></div>
+      <div class="inp-box"><label>${ko?'탈락':'Dropout'}</label><div style="font-size:20px;font-weight:700;color:var(--red);text-align:center;">${s.dropout||0}</div></div>
       <div class="inp-box"><label>AE</label><div style="font-size:20px;font-weight:700;color:var(--yellow);text-align:center;">${s.ae||0}</div></div>
     </div>
-    ${visits>0?`<div style="margin-top:10px;font-size:11px;color:var(--text3);">방문 완료: Visit ${Array.from({length:visits},(_, i)=>i+1).map(v=>`<span style="padding:2px 6px;border-radius:4px;margin:0 2px;background:${visitData['v'+v]==='done'?'rgba(52,211,153,0.2)':'var(--bg3)'};color:${visitData['v'+v]==='done'?'var(--green)':'var(--text3)'};">V${v}</span>`).join('')}</div>`:''}
+    <div style="margin-top:12px;">
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">${ko?'방문 완료 현황':'Visit Completion'}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${visitLabels.map((vl,i)=>{
+          const vkey = 'v_'+i;
+          const vkeyOld = 'v'+(i+1);
+          const done = visitData[vkey]==='done' || visitData[vkeyOld]==='done';
+          return `<label style="display:flex;align-items:center;gap:4px;cursor:pointer;background:${done?'rgba(5,150,105,0.1)':'var(--bg3)'};padding:4px 8px;border-radius:6px;font-size:12px;border:1px solid ${done?'var(--green)':'var(--border)'};transition:all 0.15s;white-space:nowrap;">
+            <input type="checkbox" onchange="updateVisit('${s.id}','${vkey}',this.checked)" ${done?'checked':''} style="width:auto;">
+            <span style="color:${done?'var(--green)':'var(--text2)'};">${vl}</span>
+          </label>`;
+        }).join('')}
+      </div>
+    </div>
   </div>`;
 }
 
 // ============ TIMELINE PAGE ============
 async function loadTimeline() {
   const pid = document.getElementById('tl-project-sel').value;
-  if (!pid) { document.getElementById('timeline-content').innerHTML = '<div style="color:var(--text3);">프로젝트를 선택해주세요.</div>'; return; }
+  if (!pid) { document.getElementById('timeline-content').innerHTML = `<div style="color:var(--text3);">${LANG==='ko'?'프로젝트를 선택해주세요.':'Please select a project.'}</div>`; return; }
   CUR_PROJECT_ID = pid;
   const msList = MILESTONES.filter(m=>m.projectId===pid).sort((a,b)=>new Date(a.date)-new Date(b.date));
-  document.getElementById('timeline-content').innerHTML = `
-    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
-      ${CUR_USER.role==='admin'?`<button class="btn btn-primary btn-sm" onclick="openMilestoneModal(null,'${pid}')">+ 마일스톤 추가</button>`:''}
-    </div>
-    <div class="card">
-      <div class="timeline" id="tl-main">
-        ${msList.length ? msList.map(m=>tlItem(m,pid)).join('') : '<div style="color:var(--text3);">마일스톤 없음</div>'}
-      </div>
-    </div>`;
+  renderGantt(msList, pid);
 }
 
-// ============ MILESTONE MODAL ============
+// Korean public holidays 2024-2027
+const KR_HOLIDAYS = new Set([
+  // 2024
+  '2024-01-01','2024-02-09','2024-02-10','2024-02-11','2024-02-12',
+  '2024-03-01','2024-04-10','2024-05-01','2024-05-05','2024-05-06','2024-05-15',
+  '2024-06-06','2024-08-15','2024-09-16','2024-09-17','2024-09-18',
+  '2024-10-03','2024-10-09','2024-12-25',
+  // 2025
+  '2025-01-01','2025-01-28','2025-01-29','2025-01-30',
+  '2025-03-01','2025-03-03','2025-05-01','2025-05-05','2025-05-06',
+  '2025-06-06','2025-08-15','2025-10-03','2025-10-05','2025-10-06','2025-10-07','2025-10-08',
+  '2025-10-09','2025-12-25',
+  // 2026
+  '2026-01-01','2026-02-16','2026-02-17','2026-02-18','2026-02-19',
+  '2026-03-01','2026-03-02','2026-05-01','2026-05-05','2026-05-24','2026-05-25',
+  '2026-06-06','2026-08-15','2026-08-17',
+  '2026-09-24','2026-09-25','2026-09-26','2026-09-28',
+  '2026-10-03','2026-10-05','2026-10-09','2026-12-25',
+  // 2027
+  '2027-01-01','2027-02-06','2027-02-07','2027-02-08','2027-02-09',
+  '2027-03-01','2027-05-01','2027-05-05','2027-05-13',
+  '2027-06-06','2027-08-15','2027-08-16',
+  '2027-09-14','2027-09-15','2027-09-16',
+  '2027-10-03','2027-10-04','2027-10-09','2027-12-25',
+]);
+
+function isWorkingDay(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  if (day === 0 || day === 6) return false; // Sun/Sat
+  const str = d.toISOString().split('T')[0];
+  return !KR_HOLIDAYS.has(str);
+}
+
+function countWorkingDays(startDate, endDate) {
+  let count = 0;
+  const cur = new Date(startDate);
+  const end = new Date(endDate);
+  while (cur <= end) {
+    if (isWorkingDay(cur)) count++;
+    cur.setDate(cur.getDate()+1);
+  }
+  return count;
+}
+
+function addWorkingDays(startDate, days) {
+  const d = new Date(startDate);
+  let count = 0;
+  while (count < days) {
+    d.setDate(d.getDate()+1);
+    if (isWorkingDay(d)) count++;
+  }
+  return d;
+}
+
+function renderGantt(msList, pid) {
+  const isAdmin = CUR_USER?.role==='admin';
+  // Zoom and showDisabled must be declared first
+  const zoom = window._ganttZoom || 'month';
+  const showDisabled = window._ganttShowDisabled || false;
+  const activeMsList = showDisabled ? msList : msList.filter(m=>!m.disabled);
+  if (!activeMsList.length) {
+    document.getElementById('timeline-content').innerHTML = `
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+        ${isAdmin?`<button class="btn btn-primary btn-sm" onclick="openMilestoneModal(null,'${pid}')">${LANG==='ko'?'+ 마일스톤 추가':'+ Add Milestone'}</button>`:''}
+      </div>
+      <div style="color:var(--text3);padding:20px;">${LANG==='ko'?'마일스톤 없음':'No milestones'}</div>`;
+    return;
+  }
+
+  // Calculate date range
+  const allDates = activeMsList.flatMap(m=>[new Date(m.date), m.actual?new Date(m.actual):null]).filter(Boolean);
+  let minDate = new Date(Math.min(...allDates));
+  let maxDate = new Date(Math.max(...allDates));
+  minDate.setDate(1);
+  maxDate.setMonth(maxDate.getMonth()+1, 1);
+
+  const totalMs = maxDate - minDate;
+
+  // Build header units based on zoom
+  function buildUnits() {
+    const units = [];
+    const cur = new Date(minDate);
+    if (zoom === 'month') {
+      while (cur < maxDate) {
+        const start = new Date(cur);
+        const end = new Date(cur.getFullYear(), cur.getMonth()+1, 1);
+        const pct = ((Math.min(end,maxDate)-Math.max(start,minDate))/totalMs*100).toFixed(2);
+        const label = cur.toLocaleDateString(LANG==='ko'?'ko-KR':'en-US',{year:'2-digit',month:'short'});
+        units.push({label, pct, start: new Date(start)});
+        cur.setMonth(cur.getMonth()+1);
+      }
+    } else if (zoom === 'quarter') {
+      while (cur < maxDate) {
+        const qStart = new Date(cur.getFullYear(), Math.floor(cur.getMonth()/3)*3, 1);
+        const qEnd = new Date(qStart.getFullYear(), qStart.getMonth()+3, 1);
+        const start = new Date(Math.max(qStart, minDate));
+        const end = new Date(Math.min(qEnd, maxDate));
+        const pct = ((end-start)/totalMs*100).toFixed(2);
+        const q = Math.floor(cur.getMonth()/3)+1;
+        units.push({label: `Q${q} '${String(cur.getFullYear()).slice(2)}`, pct, start: new Date(start)});
+        cur.setMonth(qStart.getMonth()+3);
+      }
+    } else { // year
+      while (cur < maxDate) {
+        const yStart = new Date(cur.getFullYear(), 0, 1);
+        const yEnd = new Date(cur.getFullYear()+1, 0, 1);
+        const start = new Date(Math.max(yStart, minDate));
+        const end = new Date(Math.min(yEnd, maxDate));
+        const pct = ((end-start)/totalMs*100).toFixed(2);
+        units.push({label: String(cur.getFullYear()), pct, start: new Date(start)});
+        cur.setFullYear(cur.getFullYear()+1);
+      }
+    }
+    return units;
+  }
+
+  const units = buildUnits();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayPct = Math.max(0,Math.min(100,((today-minDate)/totalMs*100))).toFixed(2);
+  const statusColors = {done:'var(--green)',active:'var(--accent)',late:'var(--red)',pending:'var(--border2)'};
+  const statusLabels = LANG==='ko'
+    ? {done:'완료',active:'진행중',late:'지연',pending:'예정'}
+    : {done:'Done',active:'Active',late:'Late',pending:'Planned'};
+
+  // Group milestones by category (detect from name prefix or sequential grouping)
+  // Group by shared prefix or auto-group every N items
+  function groupMilestones(list) {
+    const groups = {};
+    list.forEach(m => {
+      // Try to extract category from milestone name patterns
+      let cat = 'General';
+      const name = m.name || '';
+      if (/계약|contract/i.test(name)) cat = LANG==='ko'?'계약·준비':'Contract & Prep';
+      else if (/IRB|irb/i.test(name)) cat = 'IRB';
+      else if (/IB|investigator.brochure/i.test(name)) cat = LANG==='ko'?'문서 준비':'Document Prep';
+      else if (/계획서|protocol/i.test(name)) cat = LANG==='ko'?'계획서':'Protocol';
+      else if (/SIV|개시|initiation/i.test(name)) cat = 'SIV';
+      else if (/스크리닝|screening/i.test(name)) cat = LANG==='ko'?'스크리닝':'Screening';
+      else if (/투약|dose|period|방문|visit/i.test(name)) cat = LANG==='ko'?'임상 진행':'Clinical Conduct';
+      else if (/last.visit|종료.방문|LSLV/i.test(name)) cat = LANG==='ko'?'임상 진행':'Clinical Conduct';
+      else if (/검체|sample|analysis|분석/i.test(name)) cat = LANG==='ko'?'검체 분석':'Sample Analysis';
+      else if (/COV|close.out|종료.모임/i.test(name)) cat = 'COV';
+      else if (/lock|lock|잠금/i.test(name)) cat = 'DB Lock';
+      else if (/통계|statistic/i.test(name)) cat = LANG==='ko'?'통계 분석':'Statistics';
+      else if (/CSR|보고서|report/i.test(name)) cat = 'CSR';
+      else if (/TMF|master.file/i.test(name)) cat = 'TMF';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(m);
+    });
+    return groups;
+  }
+
+  const allMsList = msList;
+  const groups = groupMilestones(activeMsList);
+  const catKeys = Object.keys(groups);
+  // Init collapsed state
+  if (!window._ganttCollapsed) window._ganttCollapsed = {};
+
+  const LABEL_W = 280, DAYS_W = 70, START_W = 95, END_W = 95;
+  const fixedW = LABEL_W + DAYS_W + START_W + END_W;
+
+  const rows = catKeys.map(cat => {
+    const collapsed = window._ganttCollapsed[cat] || false;
+    const catMs = groups[cat];
+    const rowsHtml = collapsed ? '' : catMs.map((m,idx) => {
+      const isDisabled = m.disabled===true;
+      const startDate = new Date(m.date);
+      const endDate = m.actual ? new Date(m.actual) : new Date(m.date);
+      const duration = countWorkingDays(startDate, endDate);
+      const startPct = Math.max(0,((startDate-minDate)/totalMs*100));
+      const widthPct = Math.max(0.2,((Math.min(endDate,maxDate)-Math.max(startDate,minDate))/totalMs*100));
+      const color = isDisabled ? 'var(--border2)' : (statusColors[m.status]||'var(--border2)');
+      const isEven = idx%2===0;
+      const editBtns = isAdmin ? `
+        <span onclick="openMilestoneModal('${m.id}','${pid}')" style="cursor:pointer;color:var(--accent);font-size:10px;margin-left:6px;opacity:0;" class="ms-edit-btn">[${LANG==='ko'?'수정':'Edit'}]</span>
+        <span onclick="toggleMilestoneDisabled('${m.id}','${pid}',${isDisabled})" style="cursor:pointer;font-size:10px;margin-left:3px;padding:1px 5px;border-radius:3px;border:1px solid ${isDisabled?'var(--green)':'var(--border2)'};color:${isDisabled?'var(--green)':'var(--text3)'};opacity:0;" class="ms-edit-btn">${isDisabled?(LANG==='ko'?'↩ 활성화':'↩ Enable'):(LANG==='ko'?'숨기기':'Hide')}</span>` : '';
+      return `<div style="display:flex;border-bottom:1px solid var(--border);background:${isEven?'var(--bg2)':'var(--bg3)'};${isDisabled?'opacity:0.4;':''}" class="gantt-row" onmouseenter="this.querySelectorAll('.ms-edit-btn').forEach(e=>e.style.opacity='1')" onmouseleave="this.querySelectorAll('.ms-edit-btn').forEach(e=>e.style.opacity='0')">
+        <div style="width:${LABEL_W}px;min-width:${LABEL_W}px;padding:8px 16px 8px 28px;font-size:12px;border-right:1px solid var(--border);display:flex;align-items:center;gap:4px;overflow:hidden;">
+          <span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0;"></span>
+          <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${isDisabled?'text-decoration:line-through;color:var(--text3);':''}" title="${m.name}">${m.name}${editBtns}</span>
+        </div>
+        <div style="width:${DAYS_W}px;min-width:${DAYS_W}px;padding:8px;font-size:12px;border-right:1px solid var(--border);text-align:center;color:var(--text2);font-family:'DM Mono';">${isDisabled?'-':duration}</div>
+        <div style="width:${START_W}px;min-width:${START_W}px;padding:8px;font-size:11px;border-right:1px solid var(--border);text-align:center;color:var(--text2);font-family:'DM Mono';">${isDisabled?'-':m.date}</div>
+        <div style="width:${END_W}px;min-width:${END_W}px;padding:8px;font-size:11px;border-right:1px solid var(--border);text-align:center;color:var(--text2);font-family:'DM Mono';">${isDisabled?'-':(m.actual||m.date)}</div>
+        <div style="flex:1;min-width:0;padding:6px 0;position:relative;">
+          ${isDisabled?'':`<div style="position:absolute;left:${startPct}%;width:${widthPct}%;height:18px;top:50%;transform:translateY(-50%);background:${color};border-radius:3px;opacity:0.85;min-width:3px;" title="${m.name}: ${m.date}~${m.actual||m.date}">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 4px;overflow:hidden;">
+              <span style="font-size:9px;color:white;white-space:nowrap;overflow:hidden;font-weight:600;">${widthPct>4?m.name:''}</span>
+            </div>
+          </div>`}
+        </div>
+      </div>`;
+    }).join('');
+
+    // Category header row
+    const catColor = collapsed ? 'var(--text3)' : 'var(--accent)';
+    return `
+      <div style="display:flex;border-bottom:1px solid var(--border);background:var(--bg3);cursor:pointer;" onclick="toggleGanttCat('${cat.replace(/'/g,"\'")}')">
+        <div style="width:${LABEL_W}px;min-width:${LABEL_W}px;padding:8px 16px;font-size:11px;font-weight:700;color:${catColor};border-right:1px solid var(--border);display:flex;align-items:center;gap:6px;">
+          <span style="font-size:14px;">${collapsed?'▶':'▼'}</span>
+          <span>${cat}</span>
+          <span style="font-size:10px;color:var(--text3);font-weight:400;">(${catMs.length})</span>
+        </div>
+        <div style="width:${DAYS_W}px;border-right:1px solid var(--border);"></div>
+        <div style="width:${START_W}px;border-right:1px solid var(--border);"></div>
+        <div style="width:${END_W}px;border-right:1px solid var(--border);"></div>
+        <div style="flex:1;position:relative;">
+          ${catMs.filter(m=>!m.disabled).map(m=>{
+            const sd = new Date(m.date), ed = m.actual?new Date(m.actual):new Date(m.date);
+            const sp = Math.max(0,((sd-minDate)/totalMs*100));
+            const wp = Math.max(0.2,((Math.min(ed,maxDate)-Math.max(sd,minDate))/totalMs*100));
+            const col = statusColors[m.status]||'var(--border2)';
+            return `<div style="position:absolute;left:${sp}%;width:${wp}%;height:6px;top:50%;transform:translateY(-50%);background:${col};border-radius:2px;opacity:0.5;min-width:2px;"></div>`;
+          }).join('')}
+        </div>
+      </div>
+      ${rowsHtml}`;
+  }).join('');
+
+  const html = `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+      <div style="display:flex;gap:6px;font-size:11px;">
+        ${Object.entries(statusColors).map(([k,c])=>`<span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;border-radius:2px;background:${c};display:inline-block;"></span>${statusLabels[k]}</span>`).join('')}
+        <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--bg3);border:1px dashed var(--border2);display:inline-block;"></span>${LANG==='ko'?'비활성화':'Disabled'}</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+      <button onclick="toggleShowDisabled('${pid}')" style="padding:5px 10px;font-size:11px;border:1px solid ${showDisabled?'var(--accent)':'var(--border)'};border-radius:6px;background:${showDisabled?'rgba(37,99,235,0.1)':'var(--bg3)'};color:${showDisabled?'var(--accent)':'var(--text2)'};cursor:pointer;">
+        ${showDisabled?(LANG==='ko'?'👁 비활성화 숨기기':'👁 Hide Disabled'):(LANG==='ko'?'👁 비활성화 보기':'👁 Show Disabled')}
+      </button>
+      <div style="display:flex;background:var(--bg3);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        ${['month','quarter','year'].map(z=>`<button onclick="setGanttZoom('${z}','${pid}')" style="padding:5px 10px;font-size:11px;font-weight:600;border:none;cursor:pointer;background:${zoom===z?'var(--accent)':'transparent'};color:${zoom===z?'white':'var(--text2)'};">${z==='month'?(LANG==='ko'?'월':'Mo'):z==='quarter'?(LANG==='ko'?'분기':'Q'):(LANG==='ko'?'연':'Y')}</button>`).join('')}
+      </div>
+      <button onclick="toggleAllGanttCats(true)" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--bg3);color:var(--text2);cursor:pointer;">${LANG==='ko'?'전체 접기':'Collapse All'}</button>
+      <button onclick="toggleAllGanttCats(false)" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--bg3);color:var(--text2);cursor:pointer;">${LANG==='ko'?'전체 펼치기':'Expand All'}</button>
+      ${isAdmin?`<button class="btn btn-primary btn-sm" onclick="openMilestoneModal(null,'${pid}')">${LANG==='ko'?'+ 마일스톤 추가':'+ Add Milestone'}</button>`:''}
+    </div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div style="display:flex;border-bottom:2px solid var(--border);">
+      <div style="width:${LABEL_W}px;min-width:${LABEL_W}px;padding:10px 16px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border);background:var(--bg3);">${LANG==='ko'?'마일스톤':'Milestone'}</div>
+      <div style="width:${DAYS_W}px;min-width:${DAYS_W}px;padding:10px 8px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border);background:var(--bg3);text-align:center;">${LANG==='ko'?'근무일':'Days'}</div>
+      <div style="width:${START_W}px;min-width:${START_W}px;padding:10px 8px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border);background:var(--bg3);text-align:center;">${LANG==='ko'?'예정일':'Start'}</div>
+      <div style="width:${END_W}px;min-width:${END_W}px;padding:10px 8px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;border-right:1px solid var(--border);background:var(--bg3);text-align:center;">${LANG==='ko'?'종료':'End'}</div>
+      <div style="flex:1;min-width:0;background:var(--bg3);">
+        <div style="display:flex;height:100%;">
+          ${units.map(u=>`<div style="width:${u.pct}%;padding:10px 2px;font-size:10px;font-weight:600;color:var(--text2);border-right:1px solid var(--border);text-align:center;overflow:hidden;white-space:nowrap;">${u.label}</div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <div style="position:absolute;top:0;bottom:0;left:calc(${fixedW}px + ${todayPct}%);width:2px;background:var(--red);opacity:0.7;z-index:10;pointer-events:none;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--red);color:white;font-size:9px;padding:1px 4px;border-radius:2px;white-space:nowrap;">${LANG==='ko'?'오늘':'Today'}</div>
+      </div>
+      ${rows}
+    </div>
+  </div>`;
+
+  document.getElementById('timeline-content').innerHTML = html;
+}
+
+function setGanttZoom(zoom, pid) {
+  window._ganttZoom = zoom;
+  loadTimeline();
+}
+
+function toggleShowDisabled(pid) {
+  window._ganttShowDisabled = !window._ganttShowDisabled;
+  loadTimeline();
+}
+
+function toggleGanttCat(cat) {
+  if (!window._ganttCollapsed) window._ganttCollapsed = {};
+  window._ganttCollapsed[cat] = !window._ganttCollapsed[cat];
+  // Re-render with current milestones
+  const pid = document.getElementById('tl-project-sel').value;
+  if (pid) {
+    const msList = MILESTONES.filter(m=>m.projectId===pid).sort((a,b)=>new Date(a.date)-new Date(b.date));
+    renderGantt(msList, pid);
+  }
+}
+
+function toggleAllGanttCats(collapse) {
+  if (!window._ganttCollapsed) window._ganttCollapsed = {};
+  const pid = document.getElementById('tl-project-sel').value;
+  if (!pid) return;
+  const msList = MILESTONES.filter(m=>m.projectId===pid&&!m.disabled);
+  // Get all cats
+  msList.forEach(m=>{
+    const cat = (m.category && m.category.trim()) ? m.category.trim() : (() => {
+      const name = m.name||'';
+      if (/계약|contract/i.test(name)) return '계약·준비';
+      if (/IRB|irb/i.test(name)) return 'IRB';
+      if (/MFDS|식약처|규제|허가/i.test(name)) return 'MFDS';
+      if (/IB|investigator.brochure/i.test(name)) return '문서 준비';
+      if (/계획서|protocol/i.test(name)) return '계획서';
+      if (/SIV|개시|initiation/i.test(name)) return 'SIV';
+      if (/스크리닝|screening/i.test(name)) return '스크리닝';
+      if (/투약|dose|period|방문|visit|last.visit|종료.방문/i.test(name)) return '임상 진행';
+      if (/검체|sample|analysis|분석/i.test(name)) return '검체 분석';
+      if (/COV|close.out|종료.모임/i.test(name)) return 'COV';
+      if (/lock|잠금/i.test(name)) return 'DB Lock';
+      if (/통계|statistic/i.test(name)) return '통계 분석';
+      if (/CSR|보고서|report/i.test(name)) return 'CSR';
+      if (/TMF|master.file/i.test(name)) return 'TMF';
+      return 'General';
+    })();
+    window._ganttCollapsed[cat] = collapse;
+  });
+  loadTimeline();
+}
+
+
 function openMilestoneModal(msId, pid) {
   CUR_MS_ID = msId;
   document.getElementById('ms-id').value = msId||'';
@@ -1003,10 +1406,14 @@ function openMilestoneModal(msId, pid) {
     }
   } else {
     document.getElementById('ms-name').value='';
+    document.getElementById('ms-category').value='';
+    document.getElementById('ms-category-custom').value='';
+    document.getElementById('ms-cat-custom-group').style.display='none';
     document.getElementById('ms-date').value='';
     document.getElementById('ms-actual').value='';
     document.getElementById('ms-status').value='pending';
     document.getElementById('ms-note').value='';
+    document.getElementById('ms-workdays-info').textContent='';
   }
   document.getElementById('modal-milestone').classList.add('open');
 }
@@ -1017,6 +1424,7 @@ async function saveMilestone() {
   const data = {
     projectId: pid,
     name: document.getElementById('ms-name').value.trim(),
+    category: getMsCategory(),
     date: document.getElementById('ms-date').value,
     actual: document.getElementById('ms-actual').value,
     status: document.getElementById('ms-status').value,
@@ -1035,7 +1443,7 @@ async function saveMilestone() {
     MILESTONES.push({id:ref.id,...data});
   }
   closeModal('modal-milestone');
-  toast('마일스톤 저장 완료','success');
+  toast(LANG==='ko'?'마일스톤 저장 완료':'Milestone saved','success');
   await loadTimeline();
   if (document.getElementById('modal-proj-detail').classList.contains('open')) openProjDetail(pid);
 }
@@ -1074,6 +1482,7 @@ function openProjectModal(pid) {
       document.getElementById('proj-code').value=p.code||'';
       document.getElementById('proj-phase').value=p.phase||'BE Study';
       document.getElementById('proj-title').value=p.title||'';
+      document.getElementById('proj-title-en').value=p.titleEn||'';
       document.getElementById('proj-sponsor').value=p.sponsor||'';
       document.getElementById('proj-pi').value=p.pi||'';
       document.getElementById('proj-n').value=p.n||'';
@@ -1081,6 +1490,7 @@ function openProjectModal(pid) {
       document.getElementById('proj-start').value=p.start||'';
       document.getElementById('proj-end').value=p.end||'';
       document.getElementById('proj-memo').value=p.memo||'';
+      document.getElementById('proj-visit-schedule').value=(p.visitSchedule||[]).join(', ');
       document.getElementById('proj-gen-milestone').checked=false;
     }
   } else {
@@ -1095,10 +1505,13 @@ function openProjectModal(pid) {
 }
 
 async function saveProject() {
+  const visitScheduleRaw = document.getElementById('proj-visit-schedule').value.trim();
+  const visitSchedule = visitScheduleRaw ? visitScheduleRaw.split(',').map(v=>v.trim()).filter(Boolean) : [];
   const data = {
     code: document.getElementById('proj-code').value.trim(),
     phase: document.getElementById('proj-phase').value,
     title: document.getElementById('proj-title').value.trim(),
+    titleEn: document.getElementById('proj-title-en').value.trim(),
     sponsor: document.getElementById('proj-sponsor').value.trim(),
     pi: document.getElementById('proj-pi').value.trim(),
     n: parseInt(document.getElementById('proj-n').value)||0,
@@ -1106,6 +1519,7 @@ async function saveProject() {
     start: document.getElementById('proj-start').value,
     end: document.getElementById('proj-end').value,
     memo: document.getElementById('proj-memo').value.trim(),
+    visitSchedule: visitSchedule,
     updatedAt: FV.serverTimestamp()
   };
   if (!data.code || !data.title) { toast('코드와 프로젝트명을 입력하세요.','error'); return; }
@@ -1162,7 +1576,7 @@ async function generateDefaultMilestones(pid, startDate) {
 // ============ ENROLLMENT PAGE ============
 async function loadEnrollment() {
   const pid = document.getElementById('enroll-project-sel').value;
-  if (!pid) { document.getElementById('enrollment-content').innerHTML = '<div style="color:var(--text3);">프로젝트를 선택해주세요.</div>'; return; }
+  if (!pid) { document.getElementById('enrollment-content').innerHTML = `<div style="color:var(--text3);">${LANG==='ko'?'프로젝트를 선택해주세요.':'Please select a project.'}</div>`; return; }
   const sites = SITES.filter(s=>s.projectId===pid);
   const p = PROJECTS.find(x=>x.id===pid);
 
@@ -1170,47 +1584,65 @@ async function loadEnrollment() {
   const totalEnr = sites.reduce((s,x)=>s+(parseInt(x.enrolled)||0),0);
   const totalDrp = sites.reduce((s,x)=>s+(parseInt(x.dropout)||0),0);
   const totalAe = sites.reduce((s,x)=>s+(parseInt(x.ae)||0),0);
+  const totalScrDrp = sites.reduce((s,x)=>s+(parseInt(x.scrDropout)||0),0);
+  const totalCompleted = sites.reduce((s,x)=>s+(parseInt(x.completed)||0),0);
   const n = parseInt(p?.n)||0;
   const pct = n ? Math.min(Math.round(totalEnr/n*100),100) : 0;
 
   document.getElementById('enrollment-content').innerHTML = `
-    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
-      ${[['스크리닝',totalScr,'var(--text)'],['등록',totalEnr,'var(--accent)'],['탈락',totalDrp,'var(--red)'],['AE',totalAe,'var(--yellow)']].map(([l,v,c])=>`
-        <div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value" style="color:${c}">${v}</div><div class="stat-sub">목표 ${n}명 대비 ${l==='등록'?pct+'%':''}</div></div>
+    <div class="stats-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:20px;">
+      ${(LANG==='ko'
+        ?[['스크리닝',totalScr,'var(--text)'],['스크리닝 탈락',totalScrDrp,'var(--orange)'],['등록',totalEnr,'var(--accent)'],['시험완료',totalCompleted,'var(--green)'],['중도탈락',totalDrp,'var(--red)'],['AE',totalAe,'var(--yellow)']]
+        :[['Screening',totalScr,'var(--text)'],['Scr. Fail',totalScrDrp,'var(--orange)'],['Enrolled',totalEnr,'var(--accent)'],['Completed',totalCompleted,'var(--green)'],['Dropout',totalDrp,'var(--red)'],['AE',totalAe,'var(--yellow)']]
+      ).map(([l,v,c])=>`
+        <div class="stat-card"><div class="stat-label" style="color:${c};">${l}</div><div class="stat-value" style="color:${c}">${v}</div><div class="stat-sub">${LANG==='ko'?`목표 ${n}명 대비`:`vs. Target ${n}`} ${(LANG==='ko'?l==='등록':l==='Enrolled')?pct+'%':''}</div></div>
       `).join('')}
     </div>
     <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-      <button class="btn btn-secondary btn-sm" onclick="openSiteModal('${pid}')">+ 사이트 추가</button>
+      <button class="btn btn-secondary btn-sm" onclick="openSiteModal('${pid}')">${LANG==='ko'?'+ 사이트 추가':'+ Add Site'}</button>
     </div>
     <div id="sites-list">
-      ${sites.length ? sites.map(s=>enrollSiteCard(s,p)).join('') : '<div style="color:var(--text3);">등록된 사이트 없음</div>'}
+      ${sites.length ? sites.map(s=>enrollSiteCard(s,p)).join('') : `<div style="color:var(--text3);">${LANG==='ko'?'등록된 사이트 없음':'No sites registered'}</div>`}
     </div>`;
 }
 
 function enrollSiteCard(s, p) {
-  const visits = parseInt(s.visits)||3;
   const visitData = s.visitData || {};
   const isAdmin = CUR_USER?.role === 'admin';
+  const proj = p || PROJECTS.find(x=>x.id===s.projectId);
+  const visitLabels = (proj?.visitSchedule?.length) ? proj.visitSchedule : Array.from({length:parseInt(s.visits)||3},(_,i)=>`V${i+1}`);
+  const ko = LANG==='ko';
   return `<div class="site-update-card">
     <div class="site-update-header">
-      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · PI: ${s.pi||'-'} · 목표 ${s.n||'?'}명</div></div>
-      ${isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteSite('${s.id}')">삭제</button>`:''}
+      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · PI: ${s.pi||'-'} · ${ko?'목표':'Target'} ${s.n||'?'}${ko?'명':''}</div></div>
+      ${isAdmin?`<button class="btn btn-danger btn-sm" onclick="deleteSite('${s.id}')">${ko?'삭제':'Delete'}</button>`:''}
     </div>
-    <div class="inp-row">
-      ${['screened','enrolled','dropout','ae'].map((f,i)=>{
-        const labels=['스크리닝','등록','탈락','AE'];
-        return `<div class="inp-box"><label>${labels[i]}</label><input type="number" min="0" value="${s[f]||0}" onchange="updateSiteField('${s.id}','${f}',this.value)"></div>`;
-      }).join('')}
+    <div class="inp-row" style="grid-template-columns:repeat(6,1fr);">
+      ${[
+        ['screened',   ko?'스크리닝':'Screening',   'var(--text)'],
+        ['scrDropout', ko?'스크리닝 탈락':'Scr. Fail','var(--orange)'],
+        ['enrolled',   ko?'등록':'Enrolled',         'var(--accent)'],
+        ['completed',  ko?'시험완료':'Completed',     'var(--green)'],
+        ['dropout',    ko?'중도탈락':'Dropout',       'var(--red)'],
+        ['ae',         'AE',                         'var(--yellow)']
+      ].map(([f,lbl,color])=>`
+        <div class="inp-box">
+          <label style="color:${color};">${lbl}</label>
+          <input type="number" min="0" value="${s[f]||0}" style="border-color:${color}33;" onchange="updateSiteField('${s.id}','${f}',this.value)">
+        </div>`).join('')}
     </div>
     <div style="margin-top:12px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">방문 완료 현황</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">${ko?'방문 완료 현황':'Visit Completion'}</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${Array.from({length:visits},(_,i)=>i+1).map(v=>`
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;">
-            <input type="checkbox" onchange="updateVisit('${s.id}','v${v}',this.checked)" ${visitData['v'+v]==='done'?'checked':''} style="width:auto;">
-            <span style="color:${visitData['v'+v]==='done'?'var(--green)':'var(--text2)'}">V${v}</span>
-          </label>
-        `).join('')}
+        ${visitLabels.map((vl,i)=>{
+          const vkey='v_'+i;
+          const vkeyOld='v'+(i+1);
+          const done=visitData[vkey]==='done'||visitData[vkeyOld]==='done';
+          return `<label style="display:flex;align-items:center;gap:4px;cursor:pointer;background:${done?'rgba(5,150,105,0.1)':'var(--bg3)'};padding:4px 8px;border-radius:6px;font-size:12px;border:1px solid ${done?'var(--green)':'var(--border)'};transition:all 0.15s;white-space:nowrap;">
+            <input type="checkbox" onchange="updateVisit('${s.id}','${vkey}',this.checked)" ${done?'checked':''} style="width:auto;">
+            <span style="color:${done?'var(--green)':'var(--text2)'};">${vl}</span>
+          </label>`;
+        }).join('')}
       </div>
     </div>
   </div>`;
@@ -1444,28 +1876,44 @@ async function loadInvSites() {
 }
 
 function invSiteCard(s) {
-  const visits = parseInt(s.visits)||3;
+  const ko = LANG==='ko';
   const visitData = s.visitData||{};
+  const proj = PROJECTS.find(x=>x.id===s.projectId);
+  const visitLabels = (proj?.visitSchedule?.length) ? proj.visitSchedule : Array.from({length:parseInt(s.visits)||3},(_,i)=>`V${i+1}`);
+  const scrDrop = parseInt(s.screened||0) - parseInt(s.enrolled||0) - parseInt(s.dropout||0);
   return `<div class="site-update-card">
     <div class="site-update-header">
-      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · 목표 ${s.n||'?'}명</div></div>
+      <div><div class="site-name">🏥 ${s.name}</div><div class="site-country">${s.country||''} · ${ko?'목표':'Target'} ${s.n||'?'}${ko?'명':''}</div></div>
     </div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">대상자 현황을 입력해주세요. 저장은 자동으로 됩니다.</div>
-    <div class="inp-row">
-      ${['screened','enrolled','dropout','ae'].map((f,i)=>{
-        const labels=['스크리닝','등록','탈락','AE'];
-        return `<div class="inp-box"><label>${labels[i]}</label><input type="number" min="0" value="${s[f]||0}" onchange="updateSiteField('${s.id}','${f}',this.value)"></div>`;
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">${ko?'대상자 현황을 입력해주세요. 저장은 자동으로 됩니다.':'Please enter subject status. Changes are saved automatically.'}</div>
+    <div class="inp-row" style="grid-template-columns:repeat(5,1fr);">
+      ${[['screened',ko?'스크리닝':'Screening','var(--text)'],['scrDropout',ko?'스크리닝 탈락':'Scr. Fail','var(--orange)'],['enrolled',ko?'등록':'Enrolled','var(--accent)'],['dropout',ko?'중도탈락':'Dropout','var(--red)'],['ae','AE','var(--yellow)']].map(([f,lbl,color])=>{
+        const val = f==='scrDropout' ? Math.max(0,scrDrop) : (s[f]||0);
+        const readonly = f==='scrDropout';
+        return `<div class="inp-box">
+          <label style="color:${color};">${lbl}</label>
+          ${readonly
+            ? `<div style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center;font-size:16px;font-weight:700;font-family:'DM Mono';color:${color};">${val}</div>`
+            : `<input type="number" min="0" value="${val}" style="border-color:${color}33;" onchange="updateSiteField('${s.id}','${f}',this.value)">`
+          }
+        </div>`;
       }).join('')}
     </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:8px;padding:6px 10px;background:var(--bg3);border-radius:6px;">
+      💡 ${ko?'스크리닝 탈락 = 스크리닝 − 등록 − 탈락(프로토콜) (자동계산)':'Scr. Fail = Screened − Enrolled − Dropout (auto-calculated)'}
+    </div>
     <div style="margin-top:14px;">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">방문 완료 체크</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">${LANG==='ko'?'방문 완료 체크':'Visit Completion'}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        ${Array.from({length:visits},(_,i)=>i+1).map(v=>`
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;background:var(--bg3);padding:6px 10px;border-radius:6px;font-size:13px;border:1px solid ${visitData['v'+v]==='done'?'var(--green)':'var(--border)'};transition:all 0.15s;">
-            <input type="checkbox" onchange="updateVisit('${s.id}','v${v}',this.checked)" ${visitData['v'+v]==='done'?'checked':''} style="width:auto;">
-            <span style="color:${visitData['v'+v]==='done'?'var(--green)':'var(--text2)'};">Visit ${v}</span>
-          </label>
-        `).join('')}
+        ${visitLabels.map((vl,i)=>{
+          const vkey='v_'+i;
+          const vkeyOld='v'+(i+1);
+          const done=visitData[vkey]==='done'||visitData[vkeyOld]==='done';
+          return `<label style="display:flex;align-items:center;gap:6px;cursor:pointer;background:${done?'rgba(5,150,105,0.1)':'var(--bg3)'};padding:6px 10px;border-radius:6px;font-size:13px;border:1px solid ${done?'var(--green)':'var(--border)'};transition:all 0.15s;">
+            <input type="checkbox" onchange="updateVisit('${s.id}','${vkey}',this.checked)" ${done?'checked':''} style="width:auto;">
+            <span style="color:${done?'var(--green)':'var(--text2)'};">${vl}</span>
+          </label>`;
+        }).join('')}
       </div>
     </div>
   </div>`;
@@ -1473,13 +1921,42 @@ function invSiteCard(s) {
 
 // ============ HELPERS ============
 function msBadge(status) {
-  const map = {done:['badge-green','완료'],active:['badge-blue','진행중'],late:['badge-red','지연'],pending:['badge-gray','예정']};
-  const [cls,label] = map[status]||['badge-gray','예정'];
+  const map = LANG==='ko'
+    ? {done:['badge-green','완료'],active:['badge-blue','진행중'],late:['badge-red','지연'],pending:['badge-gray','예정']}
+    : {done:['badge-green','Done'],active:['badge-blue','Active'],late:['badge-red','Late'],pending:['badge-gray','Planned']};
+  const [cls,label] = map[status]||['badge-gray', LANG==='ko'?'예정':'Planned'];
   return `<span class="badge ${cls}">${label}</span>`;
 }
 
 function roleLabel(r) {
   return {admin:'Admin',inv:'Investigator',sponsor:'Sponsor'}[r]||r;
+}
+
+function handleMsCatChange(sel) {
+  const custom = document.getElementById('ms-cat-custom-group');
+  custom.style.display = sel.value === '__custom__' ? 'block' : 'none';
+  if (sel.value !== '__custom__') {
+    document.getElementById('ms-category-custom').value = '';
+  }
+}
+
+function getMsCategory() {
+  const sel = document.getElementById('ms-category').value;
+  if (sel === '__custom__') {
+    return document.getElementById('ms-category-custom').value.trim() || 'General';
+  }
+  return sel || '';
+}
+
+function calcMsWorkingDays() {
+  const start = document.getElementById('ms-date').value;
+  const end = document.getElementById('ms-actual').value || start;
+  if (!start) { document.getElementById('ms-workdays-info').textContent=''; return; }
+  const s = new Date(start), e = new Date(end);
+  const wd = countWorkingDays(s, e);
+  const total = Math.ceil((e-s)/(1000*60*60*24))+1;
+  const info = document.getElementById('ms-workdays-info');
+  info.innerHTML = `📅 ${LANG==='ko'?'소요 근무일':'Working days'}: <strong>${wd}${LANG==='ko'?'일':' days'}</strong> &nbsp;|&nbsp; ${LANG==='ko'?'달력일':'Calendar days'}: <strong>${total}${LANG==='ko'?'일':' days'}</strong> &nbsp;|&nbsp; ${LANG==='ko'?'주말·공휴일':'Weekends/Holidays'}: <strong>${total-wd}${LANG==='ko'?'일':' days'}</strong>`;
 }
 
 function closeModal(id) {
